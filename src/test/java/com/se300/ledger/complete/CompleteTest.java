@@ -1,6 +1,9 @@
 package com.se300.ledger.complete;
 
-import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.concurrent.TransferQueue;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.se300.ledger.Ledger;
 import com.se300.ledger.LedgerException;
+import com.se300.ledger.Transaction;
 
 public class CompleteTest {
 
@@ -24,7 +28,7 @@ public class CompleteTest {
     @ParameterizedTest
     @ValueSource(strings = {"mary", "bob", "bill", "frank", "jane"})
     void parameterizedValueSourcesTest(String value) throws LedgerException {
-       
+        
     }
 
     @Test
@@ -39,10 +43,21 @@ public class CompleteTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws LedgerException{
         // probably want to set variables and create blocks, accounts, etc.
         testLedger = Ledger.getInstance("test ledger",
          "test-Ledger", "test-ledger");
+        
+        testLedger.createAccount("test-account-A");
+        testLedger.getUncommittedBlock().getAccount("test-account-A").setBalance(1000);
+        testLedger.getUncommittedBlock().getAccount("test-account-A").clone(); // think this lets us have 2 accounts
+        testLedger.getUncommittedBlock().getAccount("test-account-A").setAddress("test-account-B");
+         
+        Transaction testTransaction = new Transaction();
+        
+
+        
+
 
         System.out.println("Test Ledger is set up");
 
@@ -83,6 +98,8 @@ public class CompleteTest {
     void basicAssertionsTest() {
         // TODO: Complete this test to demonstrate basic assertions (assertEquals, assertTrue, assertFalse, etc.)
         // TODO: At least 5 different basic assertions
+        assertNotNull(testLedger);
+        
     }
 
     @Test
