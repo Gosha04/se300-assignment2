@@ -1,6 +1,19 @@
 package com.se300.ledger.complete;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import com.se300.ledger.Ledger;
+import com.se300.ledger.LedgerException;
+
 public class CompleteTest {
+
+    // shared ledger instance for test methods
+    private Ledger testLedger;
 
     /* TODO: The following
      * 1. Achieve 100% Test Coverage
@@ -8,79 +21,102 @@ public class CompleteTest {
      * 3. Produce Quality Report
      */
 
-    void parameterizedValueSourcesTest(String value) {
-        // TODO: Complete this test to demonstrate parameterized testing with simple value sources
+    @ParameterizedTest
+    @ValueSource(strings = {"mary", "bob", "bill", "frank", "jane"})
+    void parameterizedValueSourcesTest(String value) throws LedgerException {
+       
     }
 
-    void parameterizedComplexSourcesTest(String str, int num) {
+    @Test
+    void parameterizedComplexSourcesTest() {
         // TODO: Complete this test to demonstrate parameterized testing with complex sources like CSV, method sources, etc.
     }
 
 
+    @Test
     void repeatedTest() {
         // TODO: Complete this test to demonstrate repeated test execution
     }
 
-
+    @BeforeEach
     void setUp() {
-        // TODO: Complete this setup method for lifecycle demonstration
-    }
+        // probably want to set variables and create blocks, accounts, etc.
+        testLedger = Ledger.getInstance("test ledger",
+         "test-Ledger", "test-ledger");
+
+        System.out.println("Test Ledger is set up");
+
+    }   
 
 
+    @AfterEach
     void tearDown() {
         // TODO: Complete this teardown method for lifecycle demonstration
+        testLedger = null;
+        System.out.println("Test Ledger is torn down");
     }
 
 
+    @Test
     void lifeCycleTest() {
         // TODO: Complete this test to demonstrate test lifecycle with BeforeEach, AfterEach, BeforeAll, AfterAll
     }
 
+    @Test
     void conditionalTest() {
         // TODO: Complete this test to demonstrate conditional test execution based on condition
     }
 
+    @Test
     void taggedTest() {
         // TODO: Complete this test to demonstrate test tagging for selective execution
     }
 
     class NestedTestClass {
+        @Test
         void nestedTest() {
             // TODO: Complete this test to demonstrate nested test classes
         }
     }
 
+    @Test
     void basicAssertionsTest() {
         // TODO: Complete this test to demonstrate basic assertions (assertEquals, assertTrue, assertFalse, etc.)
         // TODO: At least 5 different basic assertions
     }
 
+    @Test
     void advancedAssertionsTest() {
         // TODO: Complete this test to demonstrate advanced assertions (assertAll, assertThrows, assertTimeout, etc.)
         // TODO: At least 5 different advanced assertions
     }
 
+    @Test
     void mockBehaviorTest() {
         // TODO: Complete this test to demonstrate configuring mock behavior (when/then, doReturn/when, etc.)
         // TODO: At least 3 different behaviors
     }
 
+    @Test
     void assumptionsTest() {
         // TODO: Complete this test to demonstrate using assumptions (assumeTrue, assumeFalse, assumingThat, etc.)
         // TODO: At least 3 different assumptions
     }
 
 
+    @Test
     void mockVerificationTest() {
         // TODO: Complete this test to demonstrate verifying mock interactions (verify, times, never, etc.)
         // TODO: At least 3 different interactions
     }
 
+    @Test
     void mockArgumentMatchersTest() {
         // TODO: Complete this test to demonstrate using argument matchers with mocks (any(), eq(), etc.)
         // TODO: At least 3 different argument matchers
     }
 
+    @Test
     void methodOrderTest() {
         // TODO: Complete this test to demonstrate test method ordering using @TestMethodOrder and @Order annotations
     }
