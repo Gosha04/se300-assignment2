@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -11,6 +15,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.se300.ledger.Ledger;
 import com.se300.ledger.LedgerException;
 import com.se300.ledger.Transaction;
+import com.se300.ledger.Account;
+
+import java.util.UUID;
 
 public class CompleteTest {
 
@@ -46,27 +53,26 @@ public class CompleteTest {
 
     @BeforeEach
     void setUp() throws LedgerException{
-        // probably want to set variables and create blocks, accounts, etc.
-        testLedger = Ledger.getInstance("test ledger",
-         "test-Ledger", "test-ledger");
-        
-        testLedger.createAccount("test-account-A");
-        testLedger.getUncommittedBlock().getAccount("test-account-A").setBalance(1000);
-        testLedger.getUncommittedBlock().getAccount("test-account-A").clone(); // think this lets us have 2 accounts
-        testLedger.getUncommittedBlock().getAccount("test-account-A").setAddress("test-account-B");
-         
-        Transaction testTransaction = new Transaction("init-transaction", 100, 10, "Initial",
-         testLedger.getUncommittedBlock().getAccount("test-account-A"), 
-         testLedger.getUncommittedBlock().getAccount("test-account-B"));
-        
+        // initialize and reset ledger to a clean state
+        testLedger = Ledger.getInstance("test ledger", "test-Ledger", "test-ledger");
+        testLedger.reset();
+
+        // create account A and set balance
+        Account a = testLedger.createAccount("test-account-A");
+        a.setBalance(1000);
+
+        // create account B by cloning A and adding it to the uncommitted block
+        Account b = (Account) a.clone();
+        b.setAddress("test-account-B");
+        testLedger.getUncommittedBlock().addAccount(b.getAddress(), b);
+
+        // create a transaction between A and B with a unique id and process it
+        String txId = "init-transaction-" + UUID.randomUUID().toString();
+        Transaction testTransaction = new Transaction(txId, 100, 10, "Initial", a, b);
         testLedger.processTransaction(testTransaction);
 
-        
-
-
         System.out.println("Test Ledger is set up");
-
-    }   
+    }
 
 
     @AfterEach
@@ -92,6 +98,7 @@ public class CompleteTest {
         // TODO: Complete this test to demonstrate test tagging for selective execution
     }
 
+    @Nested
     class NestedTestClass {
         @Test
         void nestedTest() {
