@@ -1,6 +1,11 @@
 package com.se300.ledger.complete;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.se300.ledger.Account;
 import com.se300.ledger.Ledger;
 import com.se300.ledger.LedgerException;
 import com.se300.ledger.Transaction;
-import com.se300.ledger.Account;
-
-import java.util.UUID;
 
 public class CompleteTest {
 
@@ -61,12 +64,12 @@ public class CompleteTest {
         Account a = testLedger.createAccount("test-account-A");
         a.setBalance(1000);
 
-        // create account B by cloning A and adding it to the uncommitted block
+        // create account B by cloning A 
         Account b = (Account) a.clone();
         b.setAddress("test-account-B");
         testLedger.getUncommittedBlock().addAccount(b.getAddress(), b);
 
-        // create a transaction between A and B with a unique id and process it
+        // create a transaction between A and B + process
         String txId = "init-transaction-" + UUID.randomUUID().toString();
         Transaction testTransaction = new Transaction(txId, 100, 10, "Initial", a, b);
         testLedger.processTransaction(testTransaction);
@@ -107,10 +110,19 @@ public class CompleteTest {
     }
 
     @Test
-    void basicAssertionsTest() {
+    void basicAssertionsTest() throws LedgerException {
         // TODO: Complete this test to demonstrate basic assertions (assertEquals, assertTrue, assertFalse, etc.)
         // TODO: At least 5 different basic assertions
         assertNotNull(testLedger);
+        
+        Account testEquals = new Account("Horatio", 0);
+        Account clone = (Account) testEquals.clone();
+        assertEquals(testEquals, clone);
+
+        assertNotEquals(testLedger.getBlock(1).getAccount("test-account-A"),
+        testLedger.getBlock(1).getAccount("test-account-B"));
+
+        assertTrue(null);
         
     }
 
