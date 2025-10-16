@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 
@@ -139,6 +140,11 @@ public class CompleteTest {
     void advancedAssertionsTest() {
         // TODO: Complete this test to demonstrate advanced assertions (assertAll, assertThrows, assertTimeout, etc.)
         // TODO: At least 5 different advanced assertions
+        // assert that querying committed balances throws when no block is committed
+        assertThrows(LedgerException.class, () -> {
+            // getAccountBalance reads committed blocks only; no committed blocks in setup
+            testLedger.getAccountBalance("non-existent");
+        });
     }
 
     @Test
