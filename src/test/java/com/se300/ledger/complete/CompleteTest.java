@@ -8,11 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertTimeout;
-=======
 import static org.junit.jupiter.api.Assertions.assertTrue;
->>>>>>> f23eb596f9c716abd1a02611e8830a939d15b452
 
 import java.util.UUID;
 import java.time.Duration;
