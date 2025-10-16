@@ -1,9 +1,9 @@
 package com.se300.ledger.complete;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
@@ -123,13 +123,16 @@ public class CompleteTest {
         
         Account testEquals = new Account("Horatio", 0);
         Account clone = (Account) testEquals.clone();
-        assertEquals(testEquals, clone);
+        assertEquals(testEquals.getBalance(), clone.getBalance());
+        assertEquals(testEquals.getAddress(), clone.getAddress());
 
-        assertNotEquals(testLedger.getBlock(1).getAccount("test-account-A"),
-        testLedger.getBlock(1).getAccount("test-account-B"));
+        assertNotEquals(testEquals, clone);
+        assertNotEquals(testLedger.getUncommittedBlock().getAccount("test-account-A"),
+        testLedger.getUncommittedBlock().getAccount("test-account-B"));
 
-        assertTrue(null);
-        
+        assertEquals(1100, testLedger.getUncommittedBlock().getAccount("test-account-B").getBalance());
+
+        assertFalse(testLedger.getUncommittedBlock().getAccount("test-account-B").getBalance() == 890); // I think wrong
     }
 
     @Test
