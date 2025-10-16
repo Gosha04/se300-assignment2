@@ -37,9 +37,13 @@ public class CompleteTest {
     }
 
 
-    @Test
-    void repeatedTest() {
-        // TODO: Complete this test to demonstrate repeated test execution
+    @RepeatedTest(5)
+    @DisplayName("ProcessTransactionLoadTest")
+    void repeatedTest(RepetitionInfo repetitionInfo) {
+        
+        int rep = repetitionInfo.getCurrentRepetition();
+        int totalRep = repetitionInfo.getTotalRepetitions();
+        System.out.println("Running Repetition " + rep + " of " + totalRep);
     }
 
     @BeforeEach
