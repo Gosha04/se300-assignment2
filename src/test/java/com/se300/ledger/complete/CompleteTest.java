@@ -47,13 +47,13 @@ public class CompleteTest {
 
     @RepeatedTest(5)
     @DisplayName("ProcessTransactionLoadTest")
-    void repeatedTest(RepetitionInfo repetitionInfo) {
+    void repeatedTest(RepetitionInfo repetitionInfo) throws LedgerException{
         
         Integer rep = repetitionInfo.getCurrentRepetition();
         Account a = testLedger.createAccount("test-account-A");
         Account b = (Account) a.clone();
         b.setAddress("test-account-B");
-        Transaction newTransaction = new Transaction(rep, 1000, 10, "transaction", a, b);
+        Transaction newTransaction = new Transaction(Integer.toString(rep), 1000, 10, "transaction", a, b);
         testLedger.processTransaction(newTransaction);
         
         int totalRep = repetitionInfo.getTotalRepetitions();
