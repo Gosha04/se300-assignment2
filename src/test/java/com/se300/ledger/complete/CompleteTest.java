@@ -40,10 +40,12 @@ public class CompleteTest {
      * 3. Produce Quality Report
      */
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "Creating account with name: {0}")
     @ValueSource(strings = {"mary", "bob", "bill", "frank", "jane"})
     void parameterizedValueSourcesTest(String value) throws LedgerException {
-        
+        Account newAccount = testLedger.createAccount(value);
+        assertNotNull(newAccount, "Account should be created");
+        assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
 
     @Test
