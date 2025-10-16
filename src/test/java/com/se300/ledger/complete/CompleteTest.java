@@ -46,7 +46,13 @@ public class CompleteTest {
     @DisplayName("ProcessTransactionLoadTest")
     void repeatedTest(RepetitionInfo repetitionInfo) {
         
-        int rep = repetitionInfo.getCurrentRepetition();
+        Integer rep = repetitionInfo.getCurrentRepetition();
+        Account a = testLedger.createAccount("test-account-A");
+        Account b = (Account) a.clone();
+        b.setAddress("test-account-B");
+        Transaction newTransaction = new Transaction(rep, 1000, 10, "transaction", a, b);
+        testLedger.processTransaction(newTransaction);
+        
         int totalRep = repetitionInfo.getTotalRepetitions();
         System.out.println("Running Repetition " + rep + " of " + totalRep);
     }
