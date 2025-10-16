@@ -2,8 +2,6 @@ package com.se300.ledger.complete;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.concurrent.TransferQueue;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,8 +55,11 @@ public class CompleteTest {
         testLedger.getUncommittedBlock().getAccount("test-account-A").clone(); // think this lets us have 2 accounts
         testLedger.getUncommittedBlock().getAccount("test-account-A").setAddress("test-account-B");
          
-        Transaction testTransaction = new Transaction();
+        Transaction testTransaction = new Transaction("init-transaction", 100, 10, "Initial",
+         testLedger.getUncommittedBlock().getAccount("test-account-A"), 
+         testLedger.getUncommittedBlock().getAccount("test-account-B"));
         
+        testLedger.processTransaction(testTransaction);
 
         
 
