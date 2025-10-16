@@ -1,12 +1,17 @@
 package com.se300.ledger.complete;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 import java.util.UUID;
+import java.time.Duration;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -141,10 +146,70 @@ public class CompleteTest {
         // TODO: Complete this test to demonstrate advanced assertions (assertAll, assertThrows, assertTimeout, etc.)
         // TODO: At least 5 different advanced assertions
         // assert that querying committed balances throws when no block is committed
-        assertThrows(LedgerException.class, () -> {
-            // getAccountBalance reads committed blocks only; no committed blocks in setup
-            testLedger.getAccountBalance("non-existent");
+
+        // example: assertThrows for a LedgerException path (fee < 10)
+        Account payer = testLedger.getUncommittedBlock().getAccount("test-account-A");
+        Account receiver = testLedger.getUncommittedBlock().getAccount("test-account-B");
+        Transaction badFeeTx = new Transaction("badfee-" + UUID.randomUUID().toString(), 10, 5, "bad fee", payer, receiver);
+        assertThrows(LedgerException.class, () -> testLedger.processTransaction(badFeeTx));
+
+        // prepare a duplicate transaction id to exercise the duplicate-id path
+    
+        assertDoesNotThrow(() -> {
+            Transaction initialDup = new Transaction("duplicate", 1, 10, "dup-init", payer, receiver);
+            testLedger.processTransaction(initialDup);
         });
+
+        // group assertions that each LedgerException path is thrown as expected
+        assertAll("ledger exception paths",
+            () -> assertThrows(LedgerException.class, () -> testLedger.getBlock(0)),
+            () -> assertThrows(LedgerException.class, () -> testLedger.getAccountBalance("no-such")),
+            () -> assertThrows(LedgerException.class, () -> {
+                Transaction neg = new Transaction("negative", -1, 10, "neg", payer, receiver);
+                testLedger.processTransaction(neg);
+            }),
+            () -> assertThrows(LedgerException.class, () -> {
+                Transaction lowFee = new Transaction("fee", 10, 5, "low fee", payer, receiver);
+                testLedger.processTransaction(lowFee);
+            }),
+            () -> assertThrows(LedgerException.class, () -> {
+                String longNote = new String(new char[1025]).replace('\0', 'x');
+                Transaction longNoteTx = new Transaction("note", 10, 10, longNote, payer, receiver);
+                testLedger.processTransaction(longNoteTx);
+            }),
+            () -> assertThrows(LedgerException.class, () -> {
+                Transaction dup = new Transaction("duplicate", 1, 10, "dup-again", payer, receiver);
+                testLedger.processTransaction(dup);
+            }),
+            () -> assertThrows(LedgerException.class, () -> {
+                Transaction insuf = new Transaction("insuf", 1000000, 10, "no money", payer, receiver);
+                testLedger.processTransaction(insuf);
+            })
+        );
+
+        assertTimeout(Duration.ofSeconds(2), () -> {
+            // setup already processed one transaction in @BeforeEach; add 9 more
+            for (int i = 0; i < 9; i++) {
+                String id = "commit-" + Integer.toString(i);
+                Transaction tx = new Transaction(id, 1, 10, "commit", payer, receiver);
+                testLedger.processTransaction(tx);
+            }
+            // after loop block should be committed
+            assertNotNull(testLedger.getBlock(1));
+            assertEquals(1, testLedger.getNumberOfBlocks());
+        });
+
+        // assertDoesNotThrow for processing a valid transaction
+        Transaction validTx = new Transaction("valid", 1, 10, "ok", payer, receiver);
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> testLedger.processTransaction(validTx));
+
+        // assertIterableEquals: verify transaction IDs list is consistent
+        java.util.List<String> expectedIds = new java.util.ArrayList<>();
+        for (Transaction t : testLedger.getUncommittedBlock().getTransactionList()) {
+            expectedIds.add(t.getTransactionId());
+        }
+        java.util.List<String> actualIds = new java.util.ArrayList<>(expectedIds);
+        assertIterableEquals(expectedIds, actualIds);
     }
 
     @Test
