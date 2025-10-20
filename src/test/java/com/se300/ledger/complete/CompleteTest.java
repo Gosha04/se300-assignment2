@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.mockito.Mockito.*;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -316,13 +317,18 @@ public class CompleteTest {
             () -> assertThrows(LedgerException.class, () -> {
                 Transaction insuf = new Transaction("insuf", 1000000, 10, "no money", payer, receiver);
                 testLedger.processTransaction(insuf);
+            }),
+            () -> assertThrows(LedgerException.class, () -> {
+                Account maxPayer = new Account("maximumPay", Integer.MAX_VALUE+1);
+                Account maxReciever = new Account("maxReciever", 0);
+                Transaction maxedOut = new Transaction("maximum value", Integer.MAX_VALUE+1,
+                     10, "max int", maxPayer, maxReciever);
+                System.out.println("Processing Transaction: " + maxedOut.getTransactionId() +
+                    " " + maxedOut.getAmount() + " " + maxedOut.getFee() + " " 
+                    + maxedOut.getNote() + " " + maxedOut.getPayer().getAddress() + " "
+                    + maxedOut.getReceiver().getAddress());
+                testLedger.processTransaction(maxedOut);
             })
-            // () -> assertThrows(LedgerException.class, () -> {
-            //     // use Integer.MIN_VALUE to clearly trigger the < 0 branch
-            //     Transaction belowZero = new Transaction("negative", Integer.MIN_VALUE, 10, "neg money", payer, receiver);
-            //     System.out.println("Processing Transaction: " + belowZero.getTransactionId() + " " + belowZero.getAmount() + " " + belowZero.getFee() + " " + belowZero.getNote() + " " + belowZero.getPayer().getAddress() + " " + belowZero.getReceiver().getAddress());
-            //     testLedger.processTransaction(belowZero);
-            // })
         );
 
         assertTimeout(Duration.ofSeconds(10), () -> {
@@ -351,10 +357,22 @@ public class CompleteTest {
     }
 
     @Test
-    void mockBehaviorTest() {
+    void mockBehaviorTest() throws LedgerException {
     System.out.println("\n=== Running mockBehaviorTest ===\n");
         // TODO: Complete this test to demonstrate configuring mock behavior (when/then, doReturn/when, etc.)
         // TODO: At least 3 different behaviors
+        Ledger mockLedger = mock(Ledger.class);
+        
+         // 1) Happy path: return a balance
+        when(mockLedger.getAccountBalance(eq("alice"))).thenReturn(100);
+
+        // 2) Missing account -> throw same exception your real method would
+        when(mockLedger.getAccountBalance(eq("missing")))
+            .thenThrow(new LedgerException("Get Account Balance", "Account Does Not Exist"));
+
+        // 3) Null address -> also throw (you choose the message you expect)
+        when(mockLedger.getAccountBalance(isNull()))
+            .thenThrow(new LedgerException("Get Account Balance", "Account Does Not Exist"));
     }
 
     @Test
