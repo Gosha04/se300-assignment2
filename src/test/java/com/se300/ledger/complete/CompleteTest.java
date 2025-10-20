@@ -153,41 +153,97 @@ public class CompleteTest {
     @Nested
     @DisplayName("Validation Nested Tests")
     class NestedTestClass {
-        private Ledger nestedLedger;
-        @BeforeEach
-        void nestedSetUp() throws LedgerException {
+    private Ledger nestedLedger = null;
 
-            nestedLedger = Ledger.getInstance("nested ledger", "nested-Ledger", "nested-ledger");
-            nestedLedger.reset();
+    @BeforeEach
+    void nestedSetUp() throws LedgerException {
+        // Reset the singleton so each test starts clean
+        nestedLedger = Ledger.getInstance("nested ledger", "nested-Ledger", "nested-ledger");
+        nestedLedger.reset();
 
+        // Create zero-balance accounts
+        Account a = nestedLedger.createAccount("test-account-A");
+        Account b = nestedLedger.createAccount("test-account-B");
 
-            Account a = nestedLedger.createAccount("test-account-A");
-            a.setBalance(1000);
-            Account b = nestedLedger.createAccount("test-account-B");
-            b.setBalance(1000);
+        // Master pays all fees so totalBalances + fees == Integer.MAX_VALUE
+        Account master = nestedLedger.getUncommittedBlock().getAccount("master");
 
-            
-            for (int i = 1; i <= 10; i++) {
-            String txId = "" + i; // unique ID per repetition
-            Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
+        // Commit exactly 10 valid transactions -> 1 committed block
+        for (int i = 1; i <= 10; i++) {
+            String txId = "tx-" + i;
+            Transaction tx = new Transaction(txId, 0, 10, "transaction " + i, master, a);
             nestedLedger.processTransaction(tx);
-            }
-            assertEquals(1, testLedger.getNumberOfBlocks(), "10 commited blocks");
-
         }
 
-        @Test
-        void nestedTest() {
-        System.out.println("\n=== Running nestedTest ===\n");
-            // TODO: Complete this test to demonstrate nested test classes
-            assertNotNull(nestedLedger);
-            assertEquals(1, nestedLedger.getNumberOfBlocks());
-            //nestedLedger.validate();
+        assertEquals(1, nestedLedger.getNumberOfBlocks(), "Should have 1 committed block");
+    }
 
+    @Test
+    @DisplayName("validate(): happy path passes after 1 good commit")
+    void validate_ok() {
+        assertDoesNotThrow(() -> nestedLedger.validate());
+    }
+
+    @Test
+    @DisplayName("validate(): throws when no block has been committed")
+    void validate_noCommittedBlocks() {
+        nestedLedger.reset();  // blockMap becomes empty
+        LedgerException ex = assertThrows(LedgerException.class, () -> nestedLedger.validate());
+        assertNotNull(ex); // don't inspect message; it may be null
+    }
+
+    @Test
+    @DisplayName("validate(): throws if a committed block has txn count != 10")
+    void validate_badTxnCount() throws LedgerException {
+        // From the committed state (1 block), remove one txn from block #1
+        com.se300.ledger.Block b1 = nestedLedger.getBlock(1);
+        assertNotNull(b1);
+        assertFalse(b1.getTransactionList().isEmpty(), "Expected at least 1 committed txn to remove");
+        b1.getTransactionList().remove(0);
+
+        LedgerException ex = assertThrows(LedgerException.class, () -> nestedLedger.validate());
+        assertNotNull(ex);
+    }
+
+    @Test
+    @DisplayName("validate(): throws on hash inconsistency between block.prevHash and prevBlock.hash")
+    void validate_badHashLink() throws LedgerException {
+        // Create a 2nd committed block (20 total tx) with master paying fees
+        Account master = nestedLedger.getUncommittedBlock().getAccount("master");
+        Account a = nestedLedger.getUncommittedBlock().getAccount("test-account-A");
+        for (int i = 11; i <= 20; i++) {
+            String txId = "tx-" + i;
+            nestedLedger.processTransaction(new Transaction(txId, 0, 10, "transaction " + i, master, a));
         }
-        @AfterEach
-        void nestedTearDown() {
-        }
+        assertEquals(2, nestedLedger.getNumberOfBlocks(), "Should have 2 committed blocks");
+
+        // Corrupt block #1's hash so block #2's previousHash won't match
+        com.se300.ledger.Block block1 = nestedLedger.getBlock(1);
+        assertNotNull(block1);
+        block1.setHash("BROKEN-HASH");
+
+        LedgerException ex = assertThrows(LedgerException.class, () -> nestedLedger.validate());
+        assertNotNull(ex);
+    }
+
+    @Test
+    @DisplayName("validate(): throws when balances + fees != Integer.MAX_VALUE")
+    void validate_badAdjustedBalance() throws LedgerException {
+        // Nudge a committed account's balance to break the sum invariant
+        com.se300.ledger.Block block1 = nestedLedger.getBlock(1);
+        assertNotNull(block1);
+        Account tamper = block1.getAccount("test-account-B");
+        assertNotNull(tamper, "Committed block should contain account test-account-B");
+        tamper.setBalance(tamper.getBalance() + 1);
+
+        LedgerException ex = assertThrows(LedgerException.class, () -> nestedLedger.validate());
+        assertNotNull(ex);
+    }
+
+    @AfterEach
+    void nestedTearDown() {
+        nestedLedger = null;
+    }
     }
 
     @Test
