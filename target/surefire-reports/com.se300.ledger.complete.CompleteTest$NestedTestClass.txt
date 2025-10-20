@@ -1,13 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.se300.ledger.complete.CompleteTest$NestedTestClass
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.016 s <<< FAILURE! -- in com.se300.ledger.complete.CompleteTest$NestedTestClass
-com.se300.ledger.complete.CompleteTest$NestedTestClass.nestedTest -- Time elapsed: 0.006 s <<< ERROR!
-com.se300.ledger.LedgerException
-	at com.se300.ledger.Ledger.createAccount(Ledger.java:116)
-	at com.se300.ledger.complete.CompleteTest.setUp(CompleteTest.java:57)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in com.se300.ledger.complete.CompleteTest$NestedTestClass
