@@ -9,9 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -27,6 +31,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.se300.ledger.Account;
 import com.se300.ledger.Ledger;
 import com.se300.ledger.LedgerException;
+import com.se300.ledger.MerkleTrees;
 import com.se300.ledger.Transaction;
 
 public class CompleteTest {
@@ -251,6 +256,11 @@ public class CompleteTest {
     System.out.println("\n=== Running basicAssertionsTest ===\n");
         // TODO: Complete this test to demonstrate basic assertions (assertEquals, assertTrue, assertFalse, etc.)
         // TODO: At least 5 different basic assertions
+
+        MerkleTrees mt = new MerkleTrees(List.of("seed")); 
+        String out = mt.getSHA2HexValue(null);
+        assertEquals("", out); // catch path returns empty string
+
         assertNotNull(testLedger);
         
         Account testEquals = new Account("Horatio", 0);
@@ -356,7 +366,7 @@ public class CompleteTest {
         assertIterableEquals(expectedIds, actualIds);
     }
 
-    @Test
+    @Test // Doesn't affect coverage
     void mockBehaviorTest() throws LedgerException {
     System.out.println("\n=== Running mockBehaviorTest ===\n");
         // TODO: Complete this test to demonstrate configuring mock behavior (when/then, doReturn/when, etc.)
