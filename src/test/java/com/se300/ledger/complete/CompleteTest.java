@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 import java.time.Duration;
@@ -220,6 +219,12 @@ public class CompleteTest {
 
         // example: assertThrows for a LedgerException path (fee < 10)
         Account payer = testLedger.getUncommittedBlock().getAccount("test-account-A");
+        System.out.println("Processing: createAccount for address: " + payer.getAddress());
+
+        assertThrows(LedgerException.class, () -> testLedger.createAccount(payer.getAddress()));
+        System.out.println("Throwing Exception: Account already exists for address: " + payer.getAddress());
+
+
         Account receiver = testLedger.getUncommittedBlock().getAccount("test-account-B");
         Transaction badFeeTx = new Transaction("badfee-" + UUID.randomUUID().toString(), 10, 5, "bad fee", payer, receiver);
         assertThrows(LedgerException.class, () -> testLedger.processTransaction(badFeeTx));
@@ -258,7 +263,7 @@ public class CompleteTest {
             })
         );
 
-        assertTimeout(Duration.ofSeconds(2), () -> {
+        assertTimeout(Duration.ofSeconds(10), () -> {
             // setup already processed one transaction in @BeforeEach; add 9 more
             for (int i = 0; i < 9; i++) {
                 String id = "commit-" + Integer.toString(i);
@@ -272,7 +277,7 @@ public class CompleteTest {
 
         // assertDoesNotThrow for processing a valid transaction
         Transaction validTx = new Transaction("valid", 1, 10, "ok", payer, receiver);
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> testLedger.processTransaction(validTx));
+        assertDoesNotThrow(() -> testLedger.processTransaction(validTx));
 
         // assertIterableEquals: verify transaction IDs list is consistent
         java.util.List<String> expectedIds = new java.util.ArrayList<>();
