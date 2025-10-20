@@ -43,13 +43,16 @@ public class CompleteTest {
     @ParameterizedTest(name = "Creating account with name: {0}")
     @ValueSource(strings = {"mary", "bob", "bill", "frank", "jane"})
     void parameterizedValueSourcesTest(String value) throws LedgerException {
+    System.out.println("\n=== Running parameterizedValueSourcesTest: creating account '" + value + "' ===\n");
         Account newAccount = testLedger.createAccount(value);
+        System.out.println("Creating Account: " + newAccount.getAddress());
         assertNotNull(newAccount, "Account should be created");
         assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
 
     @Test
     void parameterizedComplexSourcesTest() {
+    System.out.println("\n=== Running parameterizedComplexSourcesTest ===\n");
         // TODO: Complete this test to demonstrate parameterized testing with complex sources like CSV, method sources, etc.
     }
 
@@ -57,6 +60,9 @@ public class CompleteTest {
     @RepeatedTest(10)
     @DisplayName("ProcessTransactionLoadTest")
     void repeatedTest(RepetitionInfo repetitionInfo) throws LedgerException {
+
+    System.out.println("\n=== Running repeatedTest (ProcessTransactionLoadTest) repetition "
+         + repetitionInfo.getCurrentRepetition() + " ===\n");
 
     long startTime = System.currentTimeMillis();
 
@@ -72,8 +78,9 @@ public class CompleteTest {
 
     for (int i = 1; i <= 9; i++) {
         String txId = rep + "-" + i; // unique ID per repetition
-        Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
-        testLedger.processTransaction(tx);
+    Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
+    System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() + " " + tx.getFee() + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " + tx.getReceiver().getAddress());
+    testLedger.processTransaction(tx);
     }
 
     // still uncommitted until 10th tx happens elsewhere
@@ -87,47 +94,59 @@ public class CompleteTest {
     @BeforeEach
     void setUp() throws LedgerException{
         // initialize and reset ledger to a clean state
+        System.out.println("Setting up...");
+        System.out.println("Creating Ledger: test ledger test-Ledger test-ledger");
         testLedger = Ledger.getInstance("test ledger", "test-Ledger", "test-ledger");
         testLedger.reset();
 
         // create account A and set balance
         Account a = testLedger.createAccount("test-account-A");
+        System.out.println("Creating Account: " + a.getAddress());
         a.setBalance(1000);
 
         // create account B by cloning A 
         Account b = (Account) a.clone();
         b.setAddress("test-account-B");
         testLedger.getUncommittedBlock().addAccount(b.getAddress(), b);
+        System.out.println("Creating Account: " + b.getAddress());
 
         // create a transaction between A and B + process
         String txId = "init-transaction-" + UUID.randomUUID().toString();
         Transaction testTransaction = new Transaction(txId, 100, 10, "Initial", a, b);
+        System.out.println("Processing Transaction: " + testTransaction.getTransactionId() + 
+            " " + testTransaction.getAmount() + " " + testTransaction.getFee() + " " 
+            + testTransaction.getNote() + " " + testTransaction.getPayer().getAddress() 
+            + " " + testTransaction.getReceiver().getAddress());
         testLedger.processTransaction(testTransaction);
 
-        System.out.println("Test Ledger is set up");
+        // System.out.println("TEST SET UP");
     }
 
 
     @AfterEach
     void tearDown() {
         // TODO: Complete this teardown method for lifecycle demonstration
+    System.out.println("--- tearDown: cleaning up test ledger ---");
         testLedger = null;
-        System.out.println("Test Ledger is torn down");
+        // System.out.println("Test Ledger is torn down");
     }
 
 
     @Test
     void lifeCycleTest() {
+    System.out.println("\n=== Running lifeCycleTest ===\n");
         // TODO: Complete this test to demonstrate test lifecycle with BeforeEach, AfterEach, BeforeAll, AfterAll
     }
 
     @Test
     void conditionalTest() {
+    System.out.println("\n=== Running conditionalTest ===\n");
         // TODO: Complete this test to demonstrate conditional test execution based on condition
     }
 
     @Test
     void taggedTest() {
+    System.out.println("\n=== Running taggedTest ===\n");
         // TODO: Complete this test to demonstrate test tagging for selective execution
     }
 
@@ -158,7 +177,9 @@ public class CompleteTest {
         }
 
         @Test
-        void nestedTest() throws LedgerException{
+        void nestedTest() {
+        System.out.println("\n=== Running nestedTest ===\n");
+            // TODO: Complete this test to demonstrate nested test classes
             assertNotNull(nestedLedger);
             assertEquals(1, nestedLedger.getNumberOfBlocks());
             //nestedLedger.validate();
@@ -166,12 +187,12 @@ public class CompleteTest {
         }
         @AfterEach
         void nestedTearDown() {
-        
         }
     }
 
     @Test
     void basicAssertionsTest() throws LedgerException {
+    System.out.println("\n=== Running basicAssertionsTest ===\n");
         // TODO: Complete this test to demonstrate basic assertions (assertEquals, assertTrue, assertFalse, etc.)
         // TODO: At least 5 different basic assertions
         assertNotNull(testLedger);
@@ -192,6 +213,7 @@ public class CompleteTest {
 
     @Test
     void advancedAssertionsTest() {
+    System.out.println("\n=== Running advancedAssertionsTest ===\n");
         // TODO: Complete this test to demonstrate advanced assertions (assertAll, assertThrows, assertTimeout, etc.)
         // TODO: At least 5 different advanced assertions
         // assert that querying committed balances throws when no block is committed
@@ -263,12 +285,14 @@ public class CompleteTest {
 
     @Test
     void mockBehaviorTest() {
+    System.out.println("\n=== Running mockBehaviorTest ===\n");
         // TODO: Complete this test to demonstrate configuring mock behavior (when/then, doReturn/when, etc.)
         // TODO: At least 3 different behaviors
     }
 
     @Test
     void assumptionsTest() {
+    System.out.println("\n=== Running assumptionsTest ===\n");
         // TODO: Complete this test to demonstrate using assumptions (assumeTrue, assumeFalse, assumingThat, etc.)
         // TODO: At least 3 different assumptions
     }
@@ -276,18 +300,21 @@ public class CompleteTest {
 
     @Test
     void mockVerificationTest() {
+    System.out.println("\n=== Running mockVerificationTest ===\n");
         // TODO: Complete this test to demonstrate verifying mock interactions (verify, times, never, etc.)
         // TODO: At least 3 different interactions
     }
 
     @Test
     void mockArgumentMatchersTest() {
+    System.out.println("\n=== Running mockArgumentMatchersTest ===\n");
         // TODO: Complete this test to demonstrate using argument matchers with mocks (any(), eq(), etc.)
         // TODO: At least 3 different argument matchers
     }
 
     @Test
     void methodOrderTest() {
+    System.out.println("\n=== Running methodOrderTest ===\n");
         // TODO: Complete this test to demonstrate test method ordering using @TestMethodOrder and @Order annotations
     }
 }
