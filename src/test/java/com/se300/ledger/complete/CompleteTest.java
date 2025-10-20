@@ -7,28 +7,45 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.NavigableMap;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import com.se300.ledger.Account;
+import com.se300.ledger.Block;
 import com.se300.ledger.Ledger;
 import com.se300.ledger.LedgerException;
 import com.se300.ledger.MerkleTrees;
@@ -116,7 +133,7 @@ public class CompleteTest {
         System.out.println("Creating Account: " + b.getAddress());
 
         // create a transaction between A and B + process
-        String txId = "init-transaction-" + UUID.randomUUID().toString();
+        String txId = "init-transaction";
         Transaction testTransaction = new Transaction(txId, 100, 10, "Initial", a, b);
         System.out.println("Processing Transaction: " + testTransaction.getTransactionId() + 
             " " + testTransaction.getAmount() + " " + testTransaction.getFee() + " " 
@@ -373,41 +390,78 @@ public class CompleteTest {
         // TODO: At least 3 different behaviors
         Ledger mockLedger = mock(Ledger.class);
         
-         // 1) Happy path: return a balance
         when(mockLedger.getAccountBalance(eq("alice"))).thenReturn(100);
 
-        // 2) Missing account -> throw same exception your real method would
         when(mockLedger.getAccountBalance(eq("missing")))
             .thenThrow(new LedgerException("Get Account Balance", "Account Does Not Exist"));
-
-        // 3) Null address -> also throw (you choose the message you expect)
+        
         when(mockLedger.getAccountBalance(isNull()))
             .thenThrow(new LedgerException("Get Account Balance", "Account Does Not Exist"));
+            
+        NavigableMap <Integer,Block> mockMap = null;
+        doReturn(mockMap).when(mockLedger).getAccountBalances();
+
+        given(mockLedger.getAccountBalance("alice")).willReturn(100);
     }
 
     @Test
-    void assumptionsTest() {
+    void assumptionsTest() throws LedgerException {
     System.out.println("\n=== Running assumptionsTest ===\n");
+        Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
+        Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
         // TODO: Complete this test to demonstrate using assumptions (assumeTrue, assumeFalse, assumingThat, etc.)
         // TODO: At least 3 different assumptions
+
+        System.out.println("Assuming only uncommited block, getAccountBalances should return null");
+        assumeTrue(testLedger.getNumberOfBlocks() == 0, "only uncommmited block");
+        assertNull(testLedger.getAccountBalances());
+
+
+        assumingThat(testLedger.getNumberOfBlocks() == 0,
+        () -> {
+            for (int i = 1; i <= 9; i++) {
+                String txId =  "Assumption -" + i; // unique ID per repetition
+                    Transaction tx = new Transaction(txId,0,10,"transaction " + i, a, b);
+                    System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() 
+                    + " " + tx.getFee() + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " 
+                    + tx.getReceiver().getAddress());
+                    testLedger.processTransaction(tx);
+            }
+            assertTrue(testLedger.getAccountBalances() != null);
+        });
+
+        assumeFalse(testLedger.getTransaction("init-transaction") == null);
+        assertNotNull(testLedger.getTransaction("init-transaction"));
     }
 
 
     @Test
-    void mockVerificationTest() {
+    void mockVerificationTest() throws LedgerException{
     System.out.println("\n=== Running mockVerificationTest ===\n");
         // TODO: Complete this test to demonstrate verifying mock interactions (verify, times, never, etc.)
         // TODO: At least 3 different interactions
+        Ledger mockLedger = mock(Ledger.class);
+
+        mockLedger.getAccountBalance("alice");
+
+        verify(mockLedger).getAccountBalance("alice");
+        verify(mockLedger, times(1)).getAccountBalance("alice");
+
+        verify(mockLedger, never()).getAccountBalance("bob");
+
+        verify(mockLedger, atLeast(1)).getAccountBalance(anyString());
+        verifyNoMoreInteractions(mockLedger);   
     }
 
     @Test
-    void mockArgumentMatchersTest() {
+    void mockArgumentMatchersTest() throws LedgerException{
     System.out.println("\n=== Running mockArgumentMatchersTest ===\n");
         // TODO: Complete this test to demonstrate using argument matchers with mocks (any(), eq(), etc.)
         // TODO: At least 3 different argument matchers
+
     }
 
-    @Test
+    @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
     void methodOrderTest() {
     System.out.println("\n=== Running methodOrderTest ===\n");
         // TODO: Complete this test to demonstrate test method ordering using @TestMethodOrder and @Order annotations
