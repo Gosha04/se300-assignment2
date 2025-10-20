@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
-import java.util.UUID;
 import java.time.Duration;
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -317,6 +317,12 @@ public class CompleteTest {
                 Transaction insuf = new Transaction("insuf", 1000000, 10, "no money", payer, receiver);
                 testLedger.processTransaction(insuf);
             })
+            // () -> assertThrows(LedgerException.class, () -> {
+            //     // use Integer.MIN_VALUE to clearly trigger the < 0 branch
+            //     Transaction belowZero = new Transaction("negative", Integer.MIN_VALUE, 10, "neg money", payer, receiver);
+            //     System.out.println("Processing Transaction: " + belowZero.getTransactionId() + " " + belowZero.getAmount() + " " + belowZero.getFee() + " " + belowZero.getNote() + " " + belowZero.getPayer().getAddress() + " " + belowZero.getReceiver().getAddress());
+            //     testLedger.processTransaction(belowZero);
+            // })
         );
 
         assertTimeout(Duration.ofSeconds(10), () -> {

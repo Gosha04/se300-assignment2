@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.se300.ledger.complete.CompleteTest" time="0.88" tests="26" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.se300.ledger.complete.CompleteTest" time="0.848" tests="26" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,10 +12,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/24.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/surefire/surefirebooter-20251019175948928_3.jar /Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/surefire 2025-10-19T17-59-47_530-jvmRun1 surefire-20251019175948928_1tmp surefire_0-20251019175948928_2tmp"/>
+    <property name="sun.java.command" value="/Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/surefire/surefirebooter-20251019185328987_3.jar /Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/surefire 2025-10-19T18-53-27_515-jvmRun1 surefire-20251019185328987_1tmp surefire_0-20251019185328987_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="CompleteTest"/>
     <property name="surefire.test.class.path" value="/Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/test-classes:/Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/classes:/Users/gosha04/.m2/repository/org/hsqldb/hsqldb/2.7.1/hsqldb-2.7.1.jar:/Users/gosha04/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/gosha04/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.13.4/junit-jupiter-params-5.13.4.jar:/Users/gosha04/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/gosha04/.m2/repository/org/mockito/mockito-core/5.20.0/mockito-core-5.20.0.jar:/Users/gosha04/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/gosha04/.m2/repository/org/mockito/mockito-inline/5.2.0/mockito-inline-5.2.0.jar:/Users/gosha04/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.13.4/junit-jupiter-api-5.13.4.jar:/Users/gosha04/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/gosha04/.m2/repository/org/junit/platform/junit-platform-commons/1.13.4/junit-platform-commons-1.13.4.jar:/Users/gosha04/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.13.4/junit-jupiter-engine-5.13.4.jar:/Users/gosha04/.m2/repository/org/junit/platform/junit-platform-engine/1.13.4/junit-platform-engine-1.13.4.jar:/Users/gosha04/.m2/repository/org/apache/maven/plugins/maven-project-info-reports-plugin/3.4.5/maven-project-info-reports-plugin-3.4.5.jar:/Users/gosha04/.m2/repository/org/apache/maven/reporting/maven-reporting-api/3.1.1/maven-reporting-api-3.1.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/reporting/maven-reporting-impl/3.2.0/maven-reporting-impl-3.2.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-artifact/3.1.0/maven-artifact-3.1.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-plugin-api/3.1.0/maven-plugin-api-3.1.0.jar:/Users/gosha04/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.plexus/0.0.0.M2a/org.eclipse.sisu.plexus-0.0.0.M2a.jar:/Users/gosha04/.m2/repository/javax/enterprise/cdi-api/1.0/cdi-api-1.0.jar:/Users/gosha04/.m2/repository/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar:/Users/gosha04/.m2/repository/com/google/guava/guava/10.0.1/guava-10.0.1.jar:/Users/gosha04/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar:/Users/gosha04/.m2/repository/org/sonatype/sisu/sisu-guice/3.1.0/sisu-guice-3.1.0-no_aop.jar:/Users/gosha04/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar:/Users/gosha04/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.inject/0.0.0.M2a/org.eclipse.sisu.inject-0.0.0.M2a.jar:/Users/gosha04/.m2/repository/asm/asm/3.3.1/asm-3.3.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/shared/maven-dependency-tree/3.2.1/maven-dependency-tree-3.2.1.jar:/Users/gosha04/.m2/repository/org/eclipse/aether/aether-util/1.0.0.v20140518/aether-util-1.0.0.v20140518.jar:/Users/gosha04/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:/Users/gosha04/.m2/repository/org/apache/maven/shared/maven-shared-jar/3.0.0/maven-shared-jar-3.0.0.jar:/Users/gosha04/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar:/Users/gosha04/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar:/Users/gosha04/.m2/repository/org/apache/bcel/bcel/6.7.0/bcel-6.7.0.jar:/Users/gosha04/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/gosha04/.m2/repository/org/eclipse/aether/aether-api/1.0.0.v20140518/aether-api-1.0.0.v20140518.jar:/Users/gosha04/.m2/repository/org/apache/maven/shared/maven-common-artifact-filters/3.3.2/maven-common-artifact-filters-3.3.2.jar:/Users/gosha04/.m2/repository/org/apache/maven/shared/maven-artifact-transfer/0.13.1/maven-artifact-transfer-0.13.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-core/3.0/maven-core-3.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-repository-metadata/3.0/maven-repository-metadata-3.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-model-builder/3.0/maven-model-builder-3.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-aether-provider/3.0/maven-aether-provider-3.0.jar:/Users/gosha04/.m2/repository/org/sonatype/aether/aether-impl/1.7/aether-impl-1.7.jar:/Users/gosha04/.m2/repository/org/sonatype/aether/aether-spi/1.7/aether-spi-1.7.jar:/Users/gosha04/.m2/repository/org/sonatype/aether/aether-api/1.7/aether-api-1.7.jar:/Users/gosha04/.m2/repository/org/sonatype/aether/aether-util/1.7/aether-util-1.7.jar:/Users/gosha04/.m2/repository/org/sonatype/sisu/sisu-inject-plexus/1.4.2/sisu-inject-plexus-1.4.2.jar:/Users/gosha04/.m2/repository/org/sonatype/sisu/sisu-inject-bean/1.4.2/sisu-inject-bean-1.4.2.jar:/Users/gosha04/.m2/repository/org/sonatype/sisu/sisu-guice/2.1.7/sisu-guice-2.1.7-noaop.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.2.3/plexus-classworlds-2.2.3.jar:/Users/gosha04/.m2/repository/org/sonatype/plexus/plexus-sec-dispatcher/1.3/plexus-sec-dispatcher-1.3.jar:/Users/gosha04/.m2/repository/org/sonatype/plexus/plexus-cipher/1.4/plexus-cipher-1.4.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-component-annotations/2.0.0/plexus-component-annotations-2.0.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-api/1.13.0/maven-scm-api-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-manager-plexus/1.13.0/maven-scm-manager-plexus-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-hg/1.13.0/maven-scm-provider-hg-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-perforce/1.13.0/maven-scm-provider-perforce-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-starteam/1.13.0/maven-scm-provider-starteam-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-svn-commons/1.13.0/maven-scm-provider-svn-commons-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-svnexe/1.13.0/maven-scm-provider-svnexe-1.13.0.jar:/Users/gosha04/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-cvs-commons/1.13.0/maven-scm-provider-cvs-commons-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-cvsexe/1.13.0/maven-scm-provider-cvsexe-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-cvsjava/1.13.0/maven-scm-provider-cvsjava-1.13.0.jar:/Users/gosha04/.m2/repository/org/netbeans/lib/cvsclient/20060125/cvsclient-20060125.jar:/Users/gosha04/.m2/repository/ch/ethz/ganymed/ganymed-ssh2/build210/ganymed-ssh2-build210.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-git-commons/1.13.0/maven-scm-provider-git-commons-1.13.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/scm/maven-scm-provider-gitexe/1.13.0/maven-scm-provider-gitexe-1.13.0.jar:/Users/gosha04/.m2/repository/commons-io/commons-io/2.6/commons-io-2.6.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-sink-api/1.11.1/doxia-sink-api-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-logging-api/1.11.1/doxia-logging-api-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-core/1.11.1/doxia-core-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/commons/commons-lang3/3.8.1/commons-lang3-3.8.1.jar:/Users/gosha04/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.jar:/Users/gosha04/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/Users/gosha04/.m2/repository/org/apache/httpcomponents/httpcore/4.4.14/httpcore-4.4.14.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-decoration-model/1.11.1/doxia-decoration-model-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-site-renderer/1.11.1/doxia-site-renderer-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-skin-model/1.11.1/doxia-skin-model-1.11.1.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-velocity/1.2/plexus-velocity-1.2.jar:/Users/gosha04/.m2/repository/org/apache/velocity/velocity/1.7/velocity-1.7.jar:/Users/gosha04/.m2/repository/org/apache/velocity/velocity-tools/2.0/velocity-tools-2.0.jar:/Users/gosha04/.m2/repository/commons-chain/commons-chain/1.1/commons-chain-1.1.jar:/Users/gosha04/.m2/repository/dom4j/dom4j/1.1/dom4j-1.1.jar:/Users/gosha04/.m2/repository/oro/oro/2.0.8/oro-2.0.8.jar:/Users/gosha04/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-integration-tools/1.11.1/doxia-integration-tools-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-model/2.2.1/maven-model-2.2.1.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-i18n/1.0-beta-10/plexus-i18n-1.0-beta-10.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-utils/3.5.1/plexus-utils-3.5.1.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.26/plexus-interpolation-1.26.jar:/Users/gosha04/.m2/repository/commons-validator/commons-validator/1.7/commons-validator-1.7.jar:/Users/gosha04/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/Users/gosha04/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar:/Users/gosha04/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/gosha04/.m2/repository/org/apache/maven/plugins/maven-site-plugin/3.12.1/maven-site-plugin-3.12.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/reporting/maven-reporting-exec/1.6.0/maven-reporting-exec-1.6.0.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-settings/3.2.5/maven-settings-3.2.5.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-settings-builder/3.2.5/maven-settings-builder-3.2.5.jar:/Users/gosha04/.m2/repository/org/apache/maven/shared/maven-shared-utils/3.3.4/maven-shared-utils-3.3.4.jar:/Users/gosha04/.m2/repository/org/apache/maven/maven-archiver/3.5.2/maven-archiver-3.5.2.jar:/Users/gosha04/.m2/repository/org/apache/commons/commons-compress/1.20/commons-compress-1.20.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-archiver/4.2.7/plexus-archiver-4.2.7.jar:/Users/gosha04/.m2/repository/org/codehaus/plexus/plexus-io/3.2.0/plexus-io-3.2.0.jar:/Users/gosha04/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar:/Users/gosha04/.m2/repository/org/tukaani/xz/1.9/xz-1.9.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-xhtml/1.11.1/doxia-module-xhtml-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-xhtml5/1.11.1/doxia-module-xhtml5-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-apt/1.11.1/doxia-module-apt-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-xdoc/1.11.1/doxia-module-xdoc-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-fml/1.11.1/doxia-module-fml-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-markdown/1.11.1/doxia-module-markdown-1.11.1.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-all/0.42.14/flexmark-all-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark/0.42.14/flexmark-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-abbreviation/0.42.14/flexmark-ext-abbreviation-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-admonition/0.42.14/flexmark-ext-admonition-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-anchorlink/0.42.14/flexmark-ext-anchorlink-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-aside/0.42.14/flexmark-ext-aside-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-attributes/0.42.14/flexmark-ext-attributes-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-autolink/0.42.14/flexmark-ext-autolink-0.42.14.jar:/Users/gosha04/.m2/repository/org/nibor/autolink/autolink/0.6.0/autolink-0.6.0.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-definition/0.42.14/flexmark-ext-definition-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-emoji/0.42.14/flexmark-ext-emoji-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-enumerated-reference/0.42.14/flexmark-ext-enumerated-reference-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-escaped-character/0.42.14/flexmark-ext-escaped-character-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-footnotes/0.42.14/flexmark-ext-footnotes-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-gfm-issues/0.42.14/flexmark-ext-gfm-issues-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-gfm-strikethrough/0.42.14/flexmark-ext-gfm-strikethrough-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-gfm-tables/0.42.14/flexmark-ext-gfm-tables-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-gfm-tasklist/0.42.14/flexmark-ext-gfm-tasklist-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-gfm-users/0.42.14/flexmark-ext-gfm-users-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-gitlab/0.42.14/flexmark-ext-gitlab-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-jekyll-front-matter/0.42.14/flexmark-ext-jekyll-front-matter-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-jekyll-tag/0.42.14/flexmark-ext-jekyll-tag-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-media-tags/0.42.14/flexmark-ext-media-tags-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-macros/0.42.14/flexmark-ext-macros-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-ins/0.42.14/flexmark-ext-ins-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-xwiki-macros/0.42.14/flexmark-ext-xwiki-macros-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-superscript/0.42.14/flexmark-ext-superscript-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-tables/0.42.14/flexmark-ext-tables-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-toc/0.42.14/flexmark-ext-toc-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-typographic/0.42.14/flexmark-ext-typographic-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-wikilink/0.42.14/flexmark-ext-wikilink-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-yaml-front-matter/0.42.14/flexmark-ext-yaml-front-matter-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-ext-youtube-embedded/0.42.14/flexmark-ext-youtube-embedded-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-formatter/0.42.14/flexmark-formatter-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-html-parser/0.42.14/flexmark-html-parser-0.42.14.jar:/Users/gosha04/.m2/repository/org/jsoup/jsoup/1.10.2/jsoup-1.10.2.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-jira-converter/0.42.14/flexmark-jira-converter-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-profile-pegdown/0.42.14/flexmark-profile-pegdown-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-util/0.42.14/flexmark-util-0.42.14.jar:/Users/gosha04/.m2/repository/com/vladsch/flexmark/flexmark-youtrack-converter/0.42.14/flexmark-youtrack-converter-0.42.14.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-confluence/1.11.1/doxia-module-confluence-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-docbook-simple/1.11.1/doxia-module-docbook-simple-1.11.1.jar:/Users/gosha04/.m2/repository/org/apache/maven/doxia/doxia-module-twiki/1.11.1/doxia-module-twiki-1.11.1.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-server/9.4.46.v20220331/jetty-server-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-http/9.4.46.v20220331/jetty-http-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-io/9.4.46.v20220331/jetty-io-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.46.v20220331/jetty-servlet-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-security/9.4.46.v20220331/jetty-security-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-util-ajax/9.4.46.v20220331/jetty-util-ajax-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-webapp/9.4.46.v20220331/jetty-webapp-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-xml/9.4.46.v20220331/jetty-xml-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/org/eclipse/jetty/jetty-util/9.4.46.v20220331/jetty-util-9.4.46.v20220331.jar:/Users/gosha04/.m2/repository/net/bytebuddy/byte-buddy/1.14.19/byte-buddy-1.14.19.jar:/Users/gosha04/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/gosha04"/>
@@ -30,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/surefire/surefirebooter-20251019175948928_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/gosha04/Documents/CPSC_Courses/SE/se300-assignment2/target/surefire/surefirebooter-20251019185328987_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.2"/>
@@ -59,24 +58,24 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="mockBehaviorTest" classname="com.se300.ledger.complete.CompleteTest" time="0.135">
+  <testcase name="mockBehaviorTest" classname="com.se300.ledger.complete.CompleteTest" time="0.129">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-e64246ee-c25e-4099-a438-dc4526ab32fd 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-5bdb857b-e11e-41dc-9e81-616cfd09da71 100 10 Initial test-account-A test-account-B
 
 === Running mockBehaviorTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[1]" classname="com.se300.ledger.complete.CompleteTest" time="0.055">
+  <testcase name="repeatedTest(RepetitionInfo)[1]" classname="com.se300.ledger.complete.CompleteTest" time="0.057">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-c1442c0d-85b5-48f5-ac7f-49b14e72667c 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-70160b07-491a-4c3f-9ea3-5d85dad483d7 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 1 ===
 
@@ -90,16 +89,16 @@ Processing Transaction: 1-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 1-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 1-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 1-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 1 completed in 33 ms
+Repetition 1 completed in 36 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[2]" classname="com.se300.ledger.complete.CompleteTest" time="0.028">
+  <testcase name="repeatedTest(RepetitionInfo)[2]" classname="com.se300.ledger.complete.CompleteTest" time="0.026">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-dc62c9aa-f601-4bff-a740-c21043d45581 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-4f0d5e06-6f86-4e31-9684-5f33b7e37e54 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 2 ===
 
@@ -113,16 +112,16 @@ Processing Transaction: 2-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 2-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 2-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 2-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 2 completed in 21 ms
+Repetition 2 completed in 20 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[3]" classname="com.se300.ledger.complete.CompleteTest" time="0.035">
+  <testcase name="repeatedTest(RepetitionInfo)[3]" classname="com.se300.ledger.complete.CompleteTest" time="0.013">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-edf40d3b-7f49-459c-9c38-2a1dbacc6d05 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-f2d9bb5f-f853-4b24-b79d-f72ca0f8b5b3 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 3 ===
 
@@ -136,16 +135,16 @@ Processing Transaction: 3-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 3-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 3-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 3-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 3 completed in 23 ms
+Repetition 3 completed in 7 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[4]" classname="com.se300.ledger.complete.CompleteTest" time="0.009">
+  <testcase name="repeatedTest(RepetitionInfo)[4]" classname="com.se300.ledger.complete.CompleteTest" time="0.011">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-5e6c7f2a-4ece-437b-be5e-4c58fc8925ae 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-83810c14-114e-443b-a2b7-dc529883cefb 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 4 ===
 
@@ -159,16 +158,16 @@ Processing Transaction: 4-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 4-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 4-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 4-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 4 completed in 4 ms
+Repetition 4 completed in 6 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[5]" classname="com.se300.ledger.complete.CompleteTest" time="0.012">
+  <testcase name="repeatedTest(RepetitionInfo)[5]" classname="com.se300.ledger.complete.CompleteTest" time="0.009">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-42b31173-de8e-4655-8e2b-c49df311b8bf 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-9a42c00f-d128-4943-8b3c-a3f70ab17d54 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 5 ===
 
@@ -186,12 +185,12 @@ Repetition 5 completed in 3 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[6]" classname="com.se300.ledger.complete.CompleteTest" time="0.025">
+  <testcase name="repeatedTest(RepetitionInfo)[6]" classname="com.se300.ledger.complete.CompleteTest" time="0.008">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-11c554c8-6a59-45e7-b0ae-95af0b5808bd 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-45d59296-6bf2-42fe-bb53-f033e4c0ade9 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 6 ===
 
@@ -205,16 +204,16 @@ Processing Transaction: 6-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 6-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 6-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 6-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 6 completed in 14 ms
+Repetition 6 completed in 4 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[7]" classname="com.se300.ledger.complete.CompleteTest" time="0.015">
+  <testcase name="repeatedTest(RepetitionInfo)[7]" classname="com.se300.ledger.complete.CompleteTest" time="0.017">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-83769a8d-074b-4248-adb5-8b3e43b9ba4c 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-fb58895f-2d9a-4ad3-86d0-a443fc9e2ca5 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 7 ===
 
@@ -228,16 +227,16 @@ Processing Transaction: 7-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 7-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 7-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 7-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 7 completed in 8 ms
+Repetition 7 completed in 16 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[8]" classname="com.se300.ledger.complete.CompleteTest" time="0.019">
+  <testcase name="repeatedTest(RepetitionInfo)[8]" classname="com.se300.ledger.complete.CompleteTest" time="0.014">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-584c8a0d-1947-4de9-8be8-99535d9bb234 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-77ab6b76-6b60-4e3b-880d-744aec284a5d 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 8 ===
 
@@ -251,16 +250,16 @@ Processing Transaction: 8-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 8-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 8-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 8-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 8 completed in 7 ms
+Repetition 8 completed in 8 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[9]" classname="com.se300.ledger.complete.CompleteTest" time="0.011">
+  <testcase name="repeatedTest(RepetitionInfo)[9]" classname="com.se300.ledger.complete.CompleteTest" time="0.006">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-356eadc8-d64d-461a-b6db-971503c8b596 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-ed12358a-b29c-4f62-b375-c357bf18cb77 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 9 ===
 
@@ -274,16 +273,16 @@ Processing Transaction: 9-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 9-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 9-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 9-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 9 completed in 5 ms
+Repetition 9 completed in 3 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="repeatedTest(RepetitionInfo)[10]" classname="com.se300.ledger.complete.CompleteTest" time="0.019">
+  <testcase name="repeatedTest(RepetitionInfo)[10]" classname="com.se300.ledger.complete.CompleteTest" time="0.013">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-c40ecac8-0593-4062-8c64-e9a70a80d42e 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-4706a4d7-e9c7-40ef-960f-d2396857f148 100 10 Initial test-account-A test-account-B
 
 === Running repeatedTest (ProcessTransactionLoadTest) repetition 10 ===
 
@@ -297,88 +296,88 @@ Processing Transaction: 10-6 0 10 transaction 6 test-account-A test-account-B
 Processing Transaction: 10-7 0 10 transaction 7 test-account-A test-account-B
 Processing Transaction: 10-8 0 10 transaction 8 test-account-A test-account-B
 Processing Transaction: 10-9 0 10 transaction 9 test-account-A test-account-B
-Repetition 10 completed in 11 ms
+Repetition 10 completed in 5 ms
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="lifeCycleTest" classname="com.se300.ledger.complete.CompleteTest" time="0.007">
+  <testcase name="lifeCycleTest" classname="com.se300.ledger.complete.CompleteTest" time="0.008">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-eb8673ce-b2f1-4f48-8f8a-87ab4f289176 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-0e88efc0-36be-4724-8930-eb1d16390f20 100 10 Initial test-account-A test-account-B
 
 === Running lifeCycleTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="parameterizedComplexSourcesTest" classname="com.se300.ledger.complete.CompleteTest" time="0.008">
+  <testcase name="parameterizedComplexSourcesTest" classname="com.se300.ledger.complete.CompleteTest" time="0.006">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-ac144f86-4d5e-4842-818e-114f60ebea10 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-d755a484-53c0-41fd-a45b-6ce8bc91e264 100 10 Initial test-account-A test-account-B
 
 === Running parameterizedComplexSourcesTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="taggedTest" classname="com.se300.ledger.complete.CompleteTest" time="0.003">
+  <testcase name="taggedTest" classname="com.se300.ledger.complete.CompleteTest" time="0.005">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-282d3b3c-be53-4aa3-bee8-59dede921a39 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-5686d87a-ce6f-4820-b810-4ff2a282b182 100 10 Initial test-account-A test-account-B
 
 === Running taggedTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="basicAssertionsTest" classname="com.se300.ledger.complete.CompleteTest" time="0.043">
+  <testcase name="basicAssertionsTest" classname="com.se300.ledger.complete.CompleteTest" time="0.041">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-2f9aa2b9-dcda-41d1-b600-b52039cb9a82 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-37be1d68-0558-447a-9fdc-8e5aabc16297 100 10 Initial test-account-A test-account-B
 
 === Running basicAssertionsTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="assumptionsTest" classname="com.se300.ledger.complete.CompleteTest" time="0.006">
+  <testcase name="assumptionsTest" classname="com.se300.ledger.complete.CompleteTest" time="0.005">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-68fc765a-f264-416c-ba73-81666bf05b17 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-4c9a6e80-2517-4cd6-a421-2166e8b85743 100 10 Initial test-account-A test-account-B
 
 === Running assumptionsTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="methodOrderTest" classname="com.se300.ledger.complete.CompleteTest" time="0.006">
+  <testcase name="methodOrderTest" classname="com.se300.ledger.complete.CompleteTest" time="0.009">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-0122cf01-d5fd-44a2-89c9-66ad269ba83f 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-6da83faf-a7ec-4beb-b312-6542b115853b 100 10 Initial test-account-A test-account-B
 
 === Running methodOrderTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="parameterizedValueSourcesTest(String)[1]" classname="com.se300.ledger.complete.CompleteTest" time="0.017">
+  <testcase name="parameterizedValueSourcesTest(String)[1]" classname="com.se300.ledger.complete.CompleteTest" time="0.024">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-a2bfcee5-3246-4bf2-b475-fdec7bc11fff 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-bfd1a544-a036-4817-b956-72837a83e965 100 10 Initial test-account-A test-account-B
 
 === Running parameterizedValueSourcesTest: creating account 'mary' ===
 
@@ -386,12 +385,12 @@ Creating Account: mary
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="parameterizedValueSourcesTest(String)[2]" classname="com.se300.ledger.complete.CompleteTest" time="0.002">
+  <testcase name="parameterizedValueSourcesTest(String)[2]" classname="com.se300.ledger.complete.CompleteTest" time="0.005">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-4bd1f25b-1887-43e4-9693-19faf256ccf5 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-09689b44-56f2-4172-b709-067e5e6bedef 100 10 Initial test-account-A test-account-B
 
 === Running parameterizedValueSourcesTest: creating account 'bob' ===
 
@@ -399,12 +398,12 @@ Creating Account: bob
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="parameterizedValueSourcesTest(String)[3]" classname="com.se300.ledger.complete.CompleteTest" time="0.009">
+  <testcase name="parameterizedValueSourcesTest(String)[3]" classname="com.se300.ledger.complete.CompleteTest" time="0.01">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-464eb8ab-c899-4e30-b0e6-64c75b4713a2 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-0951b10f-6817-45c8-b591-351844b84d5b 100 10 Initial test-account-A test-account-B
 
 === Running parameterizedValueSourcesTest: creating account 'bill' ===
 
@@ -412,12 +411,12 @@ Creating Account: bill
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="parameterizedValueSourcesTest(String)[4]" classname="com.se300.ledger.complete.CompleteTest" time="0.004">
+  <testcase name="parameterizedValueSourcesTest(String)[4]" classname="com.se300.ledger.complete.CompleteTest" time="0.005">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-b2a77896-b72a-41a1-912f-70c9de9837e3 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-7e33f6c7-363b-45e6-bc06-d60e801e7eee 100 10 Initial test-account-A test-account-B
 
 === Running parameterizedValueSourcesTest: creating account 'frank' ===
 
@@ -425,12 +424,12 @@ Creating Account: frank
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="parameterizedValueSourcesTest(String)[5]" classname="com.se300.ledger.complete.CompleteTest" time="0.003">
+  <testcase name="parameterizedValueSourcesTest(String)[5]" classname="com.se300.ledger.complete.CompleteTest" time="0.004">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-1df622a5-4642-40c0-b25a-7d1d81dc24e5 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-6c30da38-5f0f-4ef9-90d0-80da62e2e1cd 100 10 Initial test-account-A test-account-B
 
 === Running parameterizedValueSourcesTest: creating account 'jane' ===
 
@@ -438,48 +437,51 @@ Creating Account: jane
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="conditionalTest" classname="com.se300.ledger.complete.CompleteTest" time="0.008">
+  <testcase name="conditionalTest" classname="com.se300.ledger.complete.CompleteTest" time="0.006">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-d33cc42d-b453-4188-a7c6-195df8f922b9 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-75baba6e-c522-46a2-8bac-ed3f208c01b0 100 10 Initial test-account-A test-account-B
 
 === Running conditionalTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="advancedAssertionsTest" classname="com.se300.ledger.complete.CompleteTest" time="0.032">
+  <testcase name="advancedAssertionsTest" classname="com.se300.ledger.complete.CompleteTest" time="0.057">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-8cda3703-f318-4b63-be78-96d9fbe6b6c6 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-d5ce0856-79e9-4b6a-8555-41da3a05ac8b 100 10 Initial test-account-A test-account-B
 
 === Running advancedAssertionsTest ===
 
+Processing: createAccount for address: test-account-A
+Throwing Exception: Account already exists for address: test-account-A
+Processing Transaction: negative -2147483648 10 neg money test-account-A test-account-B
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="mockArgumentMatchersTest" classname="com.se300.ledger.complete.CompleteTest" time="0.004">
+  <testcase name="mockArgumentMatchersTest" classname="com.se300.ledger.complete.CompleteTest" time="0.003">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-7c25be2c-c0d0-44f3-aa8b-99a889c570d7 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-d88ae24e-24a7-4769-8291-a7f7a37b3150 100 10 Initial test-account-A test-account-B
 
 === Running mockArgumentMatchersTest ===
 
 --- tearDown: cleaning up test ledger ---
 ]]></system-out>
   </testcase>
-  <testcase name="mockVerificationTest" classname="com.se300.ledger.complete.CompleteTest" time="0.004">
+  <testcase name="mockVerificationTest" classname="com.se300.ledger.complete.CompleteTest" time="0.003">
     <system-out><![CDATA[Setting up...
 Creating Ledger: test ledger test-Ledger test-ledger
 Creating Account: test-account-A
 Creating Account: test-account-B
-Processing Transaction: init-transaction-9537d125-7037-4fef-96b7-f15e4f781042 100 10 Initial test-account-A test-account-B
+Processing Transaction: init-transaction-5b495bc1-9071-4fb1-9a57-bd33e6b547c7 100 10 Initial test-account-A test-account-B
 
 === Running mockVerificationTest ===
 
