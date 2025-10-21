@@ -166,7 +166,7 @@ public class CompleteTest {
     }
 
     @Test
-    void conditionalTest() {
+    void conditionalTest() { // you can copy over the last of the assert all things I did, I commented it
     System.out.println("\n=== Running conditionalTest ===\n");
         // TODO: Complete this test to demonstrate conditional test execution based on condition
     }
@@ -365,7 +365,7 @@ public class CompleteTest {
                     + maxedOut.getReceiver().getAddress());
                 testLedger.processTransaction(maxedOut);
             }),
-            () -> assertThrows(LedgerException.class, () -> {
+            () -> assertThrows(LedgerException.class, () -> { // this could get moved to conditional probably
                 Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
                 Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
                 
