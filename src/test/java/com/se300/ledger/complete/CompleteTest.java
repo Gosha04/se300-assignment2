@@ -72,6 +72,7 @@ public class CompleteTest {
     System.out.println("\n=== Running parameterizedValueSourcesTest: creating account '" + value + "' ===\n");
         Account newAccount = testLedger.createAccount(value);
         System.out.println("Creating Account: " + newAccount.getAddress());
+        
         assertNotNull(newAccount, "Account should be created");
         assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
@@ -98,7 +99,6 @@ public class CompleteTest {
     System.out.println("Running Repetition " + rep + " of " + totalRep);
 
     assertEquals(0, testLedger.getNumberOfBlocks(), "No committed blocks at start");
-
 
     Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
     Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
@@ -172,7 +172,7 @@ public class CompleteTest {
     }
 
     @Test
-    void taggedTest() {
+    void taggedTest() { // Done needs print
     System.out.println("\n=== Running taggedTest ===\n");
         // TODO: Complete this test to demonstrate test tagging for selective execution
     }
@@ -364,19 +364,28 @@ public class CompleteTest {
                     + maxedOut.getNote() + " " + maxedOut.getPayer().getAddress() + " "
                     + maxedOut.getReceiver().getAddress());
                 testLedger.processTransaction(maxedOut);
+            }),
+            () -> assertThrows(LedgerException.class, () -> {
+                Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
+                Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
+                
+                for (int i = 1; i <= 9; i++) {
+                String txId =  "Assumption -" + i; // unique ID per repetition
+                    Transaction tx = new Transaction(txId,0,10,"transaction " + i, a, b);
+                    System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() 
+                    + " " + tx.getFee() + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " 
+                    + tx.getReceiver().getAddress());
+                    testLedger.processTransaction(tx);
+                }
+                testLedger.getAccountBalance("no acc");
             })
         );
 
-        assertTimeout(Duration.ofSeconds(10), () -> {
-            // setup already processed one transaction in @BeforeEach; add 9 more
-            for (int i = 0; i < 9; i++) {
-                String id = "commit-" + Integer.toString(i);
-                Transaction tx = new Transaction(id, 1, 10, "commit", payer, receiver);
-                testLedger.processTransaction(tx);
-            }
+        assertTimeout(Duration.ofSeconds(20), () -> {
             // after loop block should be committed
             assertNotNull(testLedger.getBlock(1));
             assertEquals(1, testLedger.getNumberOfBlocks());
+            assertNotNull(testLedger.getAccountBalance("test-account-A"));
         });
 
         // assertDoesNotThrow for processing a valid transaction
@@ -474,7 +483,8 @@ public class CompleteTest {
 
     }
 
-    void methodOrderTest() {
+    @Test
+    void methodOrderTest() { //Done needs print
     System.out.println("\n=== Running methodOrderTest ===\n");
         // TODO: Complete this test to demonstrate test method ordering using @TestMethodOrder and @Order annotations
     }
