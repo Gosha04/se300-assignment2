@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -43,6 +44,7 @@ import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -164,17 +166,117 @@ public class CompleteTest {
     System.out.println("\n=== Running lifeCycleTest ===\n");
         // TODO: Complete this test to demonstrate test lifecycle with BeforeEach, AfterEach, BeforeAll, AfterAll
     }
-
+    
+    @EnabledIfSystemProperty(named = "RUN_GETSET", matches = "true")
     @Test
     void conditionalTest() { // you can copy over the last of the assert all things I did, I commented it
     System.out.println("\n=== Running conditionalTest ===\n");
         // TODO: Complete this test to demonstrate conditional test execution based on condition
-    }
+        boolean enabled = Boolean.getBoolean("RUN_GETSET")
+        || "true".equalsIgnoreCase(System.getenv("RUN_GETSET"));
+        assumeTrue(enabled, "Set -DRUN_GETSET=true (or env RUN_GETSET=true) to run this coverage-only test");
 
+        // --- ACCOUNT getters/setters ---
+        Account acc = new Account("addr-1", 7);
+        assertEquals("addr-1", acc.getAddress());
+        acc.setAddress("addr-2");
+        assertEquals("addr-2", acc.getAddress());
+        acc.setBalance(123);
+        assertEquals(123, acc.getBalance());
+
+        
+        Account accClone = (Account) acc.clone();
+        assertEquals(acc.getAddress(), accClone.getAddress());
+        assertEquals(acc.getBalance(), accClone.getBalance());
+
+        // --- BLOCK getters/setters ---
+        Block blk = new Block(1, "prev-hash-0");
+        assertEquals(1, blk.getBlockNumber());
+        assertEquals("prev-hash-0", blk.getPreviousHash());
+
+        blk.setBlockNumber(2);
+        assertEquals(2, blk.getBlockNumber());
+        blk.setPreviousHash("prev-hash-1");
+        assertEquals("prev-hash-1", blk.getPreviousHash());
+        blk.setHash("hash-2");
+        assertEquals("hash-2", blk.getHash());
+
+        // previousBlock getter/setter
+        Block prev = new Block(0, "");
+        blk.setPreviousBlock(prev);
+        assertSame(prev, blk.getPreviousBlock());
+
+        // Touch account/txn accessors (maps/lists are returned by getters)
+        Account a1 = new Account("A1", 10);
+        blk.addAccount(a1.getAddress(), a1);
+        assertSame(a1, blk.getAccount("A1"));
+        assertNotNull(blk.getAccountBalanceMap());
+        assertNotNull(blk.getTransactionList());
+
+        // --- TRANSACTION getters/setters ---
+        Account payer = new Account("payer", 100);
+        Account recv  = new Account("recv",  0);
+        Transaction tx = new Transaction("t-1", 5, 10, "n0", payer, recv);
+
+        tx.setTransactionId("t-2");  assertEquals("t-2", tx.getTransactionId());
+        tx.setAmount(6);             assertEquals(6, tx.getAmount());
+        tx.setFee(11);               assertEquals(11, tx.getFee());
+        tx.setNote("n1");            assertEquals("n1", tx.getNote());
+        tx.setPayer(recv);           assertSame(recv, tx.getPayer());
+        tx.setReceiver(payer);       assertSame(payer, tx.getReceiver());
+        assertNotNull(tx.toString()); // touch toString
+
+        // --- LEDGEREXCEPTION getters/setters ---
+        LedgerException le = new LedgerException("act", "why");
+        assertEquals("act", le.getAction());
+        assertEquals("why", le.getReason());
+        le.setAction("act2");   assertEquals("act2", le.getAction());
+        le.setReason("why2");   assertEquals("why2", le.getReason());
+        // Note: getMessage() may be null in your current class; tests elsewhere avoid inspecting it.
+
+        // --- LEDGER getters/setters (singleton) ---
+        // Use the shared testLedger from setUp()
+        assertNotNull(testLedger, "setUp should have initialized testLedger");
+
+        // Save current values to avoid polluting other tests
+        String origName = testLedger.getName();
+        String origDesc = testLedger.getDescription();
+        String origSeed = testLedger.getSeed();
+
+        // Set & get
+        testLedger.setName("name1");          assertEquals("name1", testLedger.getName());
+        testLedger.setDescription("desc1");   assertEquals("desc1", testLedger.getDescription());
+        testLedger.setSeed("seed1");          assertEquals("seed1", testLedger.getSeed());
+
+        // Restore and reset to leave singleton clean
+        testLedger.setName(origName);
+        testLedger.setDescription(origDesc);
+        testLedger.setSeed(origSeed);
+        testLedger.reset();
+    }
+    @Tag("Tagged")
     @Test
     void taggedTest() { // Done needs print
     System.out.println("\n=== Running taggedTest ===\n");
-        // TODO: Complete this test to demonstrate test tagging for selective execution
+
+        assertNotNull(testLedger);
+
+        // 1) Ledger singleton is the same instance
+        assertNotNull(testLedger.getTransaction("init-transaction"));
+
+        // 3) Account clone preserves fields
+        Account src = new Account("clone-src", 77);
+        Account copy = (Account) src.clone();
+        assertEquals(src.getAddress(), copy.getAddress());
+        assertEquals(src.getBalance(), copy.getBalance());
+
+        Block b = testLedger.getUncommittedBlock();
+        assertNotNull(b.getAccountBalanceMap());
+        assertNotNull(b.getTransactionList());
+
+        assertNotNull(testLedger.getName());
+        assertNotNull(testLedger.getDescription());
+        assertNotNull(testLedger.getSeed());
     }
 
     @Nested
