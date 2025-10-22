@@ -46,6 +46,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import com.se300.ledger.Account;
@@ -79,11 +80,17 @@ public class CompleteTest {
         assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
 
-    @Test // FINISH REST OF GETTERS SETTERS HERE
     @Tag("Param")
-    void parameterizedComplexSourcesTest() {
+    @ParameterizedTest
+    @CsvSource({"mary", "bob", "bill", "frank", "jane"})
+    void parameterizedComplexSourcesTest(String value) throws LedgerException {
     System.out.println("\n=== Running parameterizedComplexSourcesTest ===\n");
-        // TODO: Complete this test to demonstrate parameterized testing with complex sources like CSV, method sources, etc.
+
+    Account newAccount = testLedger.createAccount(value);
+    System.out.println("Creating Account: " + newAccount.getAddress());
+
+    assertNotNull(newAccount, "Account should be created");
+    assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
 
 

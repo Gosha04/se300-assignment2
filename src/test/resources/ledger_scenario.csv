@@ -1,0 +1,45 @@
+step,cmd,txId,amount,fee,note,payer,receiver,account,expect,expVal
+1,create-ledger,,,,,,,,ok,
+2,create-account,,,,,,,mary,ok,
+3,create-account,,,,,,,bob,ok,
+4,create-account,,,,,,,bill,ok,
+5,create-account,,,,,,,frank,ok,
+6,create-account,,,,,,,jane,ok,
+7,get-account-balance,,,,,,,mary,throws,
+8,process-transaction,1,1000,10,fund account,master,mary,,ok,
+9,process-transaction,2,1000,10,fund account,master,bob,,ok,
+10,process-transaction,3,1000,10,fund account,master,bill,,ok,
+11,process-transaction,4,1000,10,fund account,master,frank,,ok,
+12,process-transaction,5,1000,10,fund account,master,mary,,ok,
+13,process-transaction,6,1000,10,fund account,master,bob,,ok,
+14,process-transaction,7,1000,10,fund account,master,bill,,ok,
+15,process-transaction,8,1000,10,fund account,master,frank,,ok,
+16,process-transaction,9,1000,10,fund account,master,mary,,ok,
+17,process-transaction,10,1000,10,fund account,master,bob,,ok,
+18,get-account-balance,,,,,,,mary,equals,3000
+19,get-account-balance,,,,,,,bob,equals,3000
+20,get-account-balance,,,,,,,bill,equals,2000
+21,get-account-balance,,,,,,,frank,equals,2000
+22,get-account-balance,,,,,,,jane,equals,0
+23,get-block,1,,,,,,,ok,
+24,get-transaction,10,,,,,,,ok,
+25,process-transaction,11,200,10,september rent,frank,jane,,ok,
+26,get-account-balance,,,,,,,frank,equals,2000
+27,get-account-balance,,,,,,,jane,equals,0
+28,process-transaction,12,20,10,uber,bob,mary,,ok,
+29,process-transaction,13,20,10,uber,bob,mary,,ok,
+30,process-transaction,14,20,10,uber,bob,mary,,ok,
+31,process-transaction,15,20,10,uber,bob,mary,,ok,
+32,process-transaction,16,20,10,uber,bob,mary,,ok,
+33,process-transaction,17,20,10,uber,bob,mary,,ok,
+34,process-transaction,18,20,10,uber,bob,mary,,ok,
+35,process-transaction,19,20,10,uber,bob,mary,,ok,
+36,process-transaction,20,20,10,uber,bob,mary,,ok,
+37,get-account-balance,,,,,,,jane,equals,200
+38,get-account-balance,,,,,,,frank,equals,1790
+39,get-account-balance,,,,,,,mary,equals,3180
+40,get-account-balance,,,,,,,bob,equals,2730
+41,get-account-balances,,,,,,,,ok,
+42,process-transaction,21,5000,10,food,bob,mary,,throws,
+43,process-transaction,22,20,5,food,bob,mary,,throws,
+44,validate,,,,,,,,ok,
