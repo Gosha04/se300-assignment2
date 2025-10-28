@@ -28,12 +28,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -61,6 +65,7 @@ public class CompleteTest {
 
     // shared ledger instance for test methods
     private Ledger testLedger;
+    private static PrintWriter writer;
 
     /* TODO: The following
      * 1. Achieve 100% Test Coverage
@@ -72,11 +77,14 @@ public class CompleteTest {
     @ValueSource(strings = {"mary", "bob", "bill", "frank", "jane"})
     @Tag("Param")
     void parameterizedValueSourcesTest(String value) throws LedgerException {
-    System.out.println("\n=== Running parameterizedValueSourcesTest: creating account '" + value + "' ===\n");
+        System.out.println("\n=== Running parameterizedValueSourcesTest: creating account '" + value + "' ===\n");
+
         Account newAccount = testLedger.createAccount(value);
+
         System.out.println("Creating Account: " + newAccount.getAddress());
-        
+       
         assertNotNull(newAccount, "Account should be created");
+
         assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
 
@@ -84,54 +92,58 @@ public class CompleteTest {
     @ParameterizedTest
     @CsvSource({"mary", "bob", "bill", "frank", "jane"})
     void parameterizedComplexSourcesTest(String value) throws LedgerException {
-    System.out.println("\n=== Running parameterizedComplexSourcesTest ===\n");
+        System.out.println("\n=== Running parameterizedComplexSourcesTest ===\n");
 
-    Account newAccount = testLedger.createAccount(value);
-    System.out.println("Creating Account: " + newAccount.getAddress());
+        Account newAccount = testLedger.createAccount(value);
+        System.out.println("Creating Account: " + newAccount.getAddress());
 
-    assertNotNull(newAccount, "Account should be created");
-    assertEquals(value, newAccount.getAddress(), "Account address should match");
+        assertNotNull(newAccount, "Account should be created");
+
+        assertEquals(value, newAccount.getAddress(), "Account address should match");
     }
 
 
     @RepeatedTest(10)
     @DisplayName("ProcessTransactionLoadTest")
     void repeatedTest(RepetitionInfo repetitionInfo) throws LedgerException {
+        System.out.println("\n=== Running repeatedTest (ProcessTransactionLoadTest) repetition "
+            + repetitionInfo.getCurrentRepetition() + " ===\n");
+    
+        long startTime = System.currentTimeMillis();
 
-    System.out.println("\n=== Running repeatedTest (ProcessTransactionLoadTest) repetition "
-         + repetitionInfo.getCurrentRepetition() + " ===\n");
+        Integer rep = repetitionInfo.getCurrentRepetition();
+        int totalRep = repetitionInfo.getTotalRepetitions();
+        System.out.println("Running Repetition " + rep + " of " + totalRep);
 
-    long startTime = System.currentTimeMillis();
+        assertEquals(0, testLedger.getNumberOfBlocks(), "No committed blocks at start");
 
-    Integer rep = repetitionInfo.getCurrentRepetition();
-    int totalRep = repetitionInfo.getTotalRepetitions();
-    System.out.println("Running Repetition " + rep + " of " + totalRep);
+        Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
+        Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
 
-    assertEquals(0, testLedger.getNumberOfBlocks(), "No committed blocks at start");
+        for (int i = 1; i <= 9; i++) {
+            String txId = rep + "-" + i; // unique ID per repetition
+        Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
 
-    Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
-    Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
+        System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() + " " + tx.getFee()
+         + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " + tx.getReceiver().getAddress());
 
-    for (int i = 1; i <= 9; i++) {
-        String txId = rep + "-" + i; // unique ID per repetition
-    Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
-    System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() + " " + tx.getFee() + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " + tx.getReceiver().getAddress());
-    testLedger.processTransaction(tx);
+        testLedger.processTransaction(tx);
+        }
+
+        // still uncommitted until 10th tx happens elsewhere
+        assertEquals(1, testLedger.getNumberOfBlocks(), "10 commited blocks");
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        System.out.println("Repetition " + rep + " completed in " + duration + " ms");    
     }
-
-    // still uncommitted until 10th tx happens elsewhere
-    assertEquals(1, testLedger.getNumberOfBlocks(), "10 commited blocks");
-
-    long endTime = System.currentTimeMillis();
-    long duration = endTime - startTime;
-    System.out.println("Repetition " + rep + " completed in " + duration + " ms");    
-}
 
     @BeforeEach
     void setUp() throws LedgerException{
         // initialize and reset ledger to a clean state
         System.out.println("Setting up...");
         System.out.println("Creating Ledger: test ledger test-Ledger test-ledger");
+        
         testLedger = Ledger.getInstance("test ledger", "test-Ledger", "test-ledger");
         testLedger.reset();
 
@@ -153,31 +165,40 @@ public class CompleteTest {
             " " + testTransaction.getAmount() + " " + testTransaction.getFee() + " " 
             + testTransaction.getNote() + " " + testTransaction.getPayer().getAddress() 
             + " " + testTransaction.getReceiver().getAddress());
-        testLedger.processTransaction(testTransaction);
 
-        // System.out.println("TEST SET UP");
+        testLedger.processTransaction(testTransaction);
     }
 
 
     @AfterEach
     void tearDown() {
         // TODO: Complete this teardown method for lifecycle demonstration
-    System.out.println("--- tearDown: cleaning up test ledger ---");
+        System.out.println("--- tearDown: cleaning up test ledger ---");
         testLedger = null;
-        // System.out.println("Test Ledger is torn down");
     }
 
 
     @Test
-    void lifeCycleTest() {
+    void lifeCycleTest() { // Done throughout
     System.out.println("\n=== Running lifeCycleTest ===\n");
         // TODO: Complete this test to demonstrate test lifecycle with BeforeEach, AfterEach, BeforeAll, AfterAll
+    }
+
+    @BeforeAll
+    static void open() throws Exception {
+        writer = new PrintWriter("endToEnd.txt"); 
+    }
+
+    @AfterAll
+    static void close() throws Exception {
+        if (writer != null) writer.close();
     }
     
     @EnabledIfSystemProperty(named = "RUN_GETSET", matches = "true")
     @Test
-    void conditionalTest() { // you can copy over the last of the assert all things I did, I commented it
+    void conditionalTest() { 
     System.out.println("\n=== Running conditionalTest ===\n");
+        writer.write("\n=== Running conditionalTest ===\n");
         // TODO: Complete this test to demonstrate conditional test execution based on condition
         boolean enabled = Boolean.getBoolean("RUN_GETSET")
         || "true".equalsIgnoreCase(System.getenv("RUN_GETSET"));
@@ -589,12 +610,178 @@ public class CompleteTest {
     System.out.println("\n=== Running mockArgumentMatchersTest ===\n");
         // TODO: Complete this test to demonstrate using argument matchers with mocks (any(), eq(), etc.)
         // TODO: At least 3 different argument matchers
+        Ledger mockLedger = mock(Ledger.class);
+        
+        when(mockLedger.getAccountBalance(eq("alice"))).thenReturn(100);
 
+        when(mockLedger.getAccountBalance(eq("missing")))
+            .thenThrow(new LedgerException("Get Account Balance", "Account Does Not Exist"));
+        
+        when(mockLedger.getAccountBalance(isNull()))
+            .thenThrow(new LedgerException("Get Account Balance", "Account Does Not Exist"));
+            
+        when(mockLedger.getAccountBalance(anyString())).thenReturn(123);    
     }
 
     @Test
     void methodOrderTest() { //Done needs print
     System.out.println("\n=== Running methodOrderTest ===\n");
         // TODO: Complete this test to demonstrate test method ordering using @TestMethodOrder and @Order annotations
+    }
+
+    @Test
+    void endToEnd() throws LedgerException {
+        // Test 1
+        Ledger testLedger = Ledger.getInstance("test", "test ledger 2025", "chapman");
+        assertNotNull(testLedger);
+        System.out.println("create-ledger test description \"test ledger 2025\" seed \"chapman\"");
+        writer.write("\ncreate-ledger test description \"test ledger 2025\" seed \"chapman\"");
+
+        testLedger.reset();
+
+        // Test 2
+        for (String addr : new String[]{"mary","bob","bill","frank","jane"}) {
+            Account a = testLedger.createAccount(addr);
+            assertNotNull(a);
+            assertEquals(addr, a.getAddress());
+            System.out.println("create-account " + addr);
+            writer.write("\ncreate-account " + addr);
+        }
+
+        // Test 3
+        System.out.println("get-account-balance mary");
+        writer.write("\nget-account-balance mary");
+        assertThrows(LedgerException.class, () -> testLedger.getAccountBalance("mary"));
+
+        // Test 4
+        Integer i = 1;
+        for (String addr : new String[]{"mary","bob","bill","frank","mary"}) {
+            Transaction trans = new Transaction(Integer.toString(i), 1000, 10, "fund account",
+             testLedger.getUncommittedBlock().getAccount("master"),
+             testLedger.getUncommittedBlock().getAccount(addr));
+
+            assertDoesNotThrow(() -> testLedger.processTransaction(trans));
+            System.out.println("process-transaction " + i + " amount " + trans.getAmount() + " fee " + trans.getFee() +
+            " note " + trans.getNote() + " payer " + trans.getPayer().getAddress() + " receiver " + trans.getReceiver().getAddress());
+            writer.write("\nprocess-transaction " + i + " amount " + trans.getAmount() + " fee " + trans.getFee() +
+            " note " + trans.getNote() + " payer " + trans.getPayer().getAddress() + " receiver " + trans.getReceiver().getAddress());
+            ++i;
+        }
+
+        // Test 5
+        System.out.println("get-account-balance mary");
+        writer.write("\nget-account-balance mary");
+        assertThrows(LedgerException.class, () -> testLedger.getAccountBalance("mary"));
+
+        // Test 6
+        System.out.println("get-account-balances");
+        writer.write("\nget-account-balances");
+        assertNull(testLedger.getAccountBalances());
+
+        // Test 7 
+        for (String addr : new String[]{"bob", "bill", "frank", "mary", "bob"}) {
+            Transaction trans = new Transaction(Integer.toString(i), 1000, 10, "fund account",
+             testLedger.getUncommittedBlock().getAccount("master"),
+             testLedger.getUncommittedBlock().getAccount(addr));
+
+
+            assertDoesNotThrow(() -> testLedger.processTransaction(trans));
+            System.out.println("process-transaction " + i + " amount " + trans.getAmount() + " fee " + trans.getFee() +
+            " note " + trans.getNote() + " payer " + trans.getPayer().getAddress() + " receiver " + trans.getReceiver().getAddress());
+            writer.write("\nprocess-transaction " + i + " amount " + trans.getAmount() + " fee " + trans.getFee() +
+            " note " + trans.getNote() + " payer " + trans.getPayer().getAddress() + " receiver " + trans.getReceiver().getAddress());
+            i++;
+        }
+
+        // Test 8
+        assertEquals(testLedger.getAccountBalance("mary"), 3000);
+        assertEquals(testLedger.getAccountBalance("bob"), 3000);
+        assertEquals(testLedger.getAccountBalance("bill"), 2000);
+        assertEquals(testLedger.getAccountBalance("frank"), 2000);
+        assertEquals(testLedger.getAccountBalance("jane"), 0);
+        for (String addr: new String[]{"mary", "bob", "bill", "frank", "jane"}) {
+            System.out.println("get-account-" + addr);
+            writer.write("\nget-account-" + addr);
+        }
+
+        // Test 9
+        assertNotNull(testLedger.getBlock(1));
+        assertNotNull(testLedger.getTransaction(Integer.toString(10)));
+        System.out.println("get-block" + 1);
+        System.out.println("get-transaction" + 10);
+        writer.write("\nget-block 1\nget-transaction 10");
+
+        // Test 10
+        Block b1 = assertDoesNotThrow(() -> testLedger.getBlock(1)); // for existence
+        Account frankAcc = testLedger.getUncommittedBlock().getAccount("frank");
+        Account janeAcc  = testLedger.getUncommittedBlock().getAccount("jane");
+
+        assertEquals(2000, assertDoesNotThrow(() -> testLedger.getAccountBalance("frank")));
+        assertEquals(0,    assertDoesNotThrow(() -> testLedger.getAccountBalance("jane")));
+
+        Transaction t11 = new Transaction("11", 200, 10, "september rent", frankAcc, janeAcc);
+        assertDoesNotThrow(() -> testLedger.processTransaction(t11));
+
+        System.out.println("process-transaction 11 amount 200 fee 10 note \"september rent\" payer frank receiver jane");
+        writer.println("process-transaction 11 amount 200 fee 10 note \"september rent\" payer frank receiver jane");
+
+        System.out.println("get-account-balance frank");
+        System.out.println("get-account-balance jane");
+        writer.println("get-account-balance frank");
+        writer.println("get-account-balance jane");
+
+        // Test 11
+        Account bobU  = testLedger.getUncommittedBlock().getAccount("bob");
+        Account maryU = testLedger.getUncommittedBlock().getAccount("mary");
+
+        for (int id = 12; id <= 20; id++) {
+            Transaction tx = new Transaction(Integer.toString(id), 20, 10, "uber", bobU, maryU);
+            assertDoesNotThrow(() -> testLedger.processTransaction(tx));
+            String line = "process-transaction " + id + " amount " + tx.getAmount() + " fee " + tx.getFee()
+                + " note " + tx.getNote() + " payer " + tx.getPayer().getAddress()
+                + " receiver " + tx.getReceiver().getAddress();
+            System.out.println(line);
+            writer.println(line);
+        }
+
+        int jane  = assertDoesNotThrow(() -> testLedger.getAccountBalance("jane"));
+        int frank = assertDoesNotThrow(() -> testLedger.getAccountBalance("frank"));
+        int mary  = assertDoesNotThrow(() -> testLedger.getAccountBalance("mary"));
+        int bob   = assertDoesNotThrow(() -> testLedger.getAccountBalance("bob"));
+
+        System.out.println("get-account-balance jane => " + jane);
+        System.out.println("get-account-balance frank => " + frank);
+        System.out.println("get-account-balance mary => " + mary);
+        System.out.println("get-account-balance bob  => " + bob);
+
+        writer.println("get-account-balance jane => " + jane);
+        writer.println("get-account-balance frank => " + frank);
+        writer.println("get-account-balance mary => " + mary);
+        writer.println("get-account-balance bob  => " + bob);
+
+        assertEquals(200,  jane,  "jane balance");
+        assertEquals(1790, frank, "frank balance");
+        assertEquals(3180, mary,  "mary balance");
+        assertEquals(2730, bob,   "bob balance");
+
+        // Test 13
+        System.out.println("get-account-balances");
+        writer.println("get-account-balances");
+        Map<String,Integer> all = testLedger.getAccountBalances();
+        assertNotNull(all);
+        System.out.println(all);
+        writer.println(all);
+
+        Transaction t21 = new Transaction("21", 5000, 10, "food", bobU, maryU);
+        assertThrows(LedgerException.class, () -> testLedger.processTransaction(t21));
+
+        Transaction t22 = new Transaction("22", 20, 5, "food", bobU, maryU);
+        System.out.println("process-transaction 22 amount 20 fee 5 note \"food\" payer bob receiver mary");
+        writer.println("process-transaction 22 amount 20 fee 5 note \"food\" payer bob receiver mary");
+        assertThrows(LedgerException.class, () -> testLedger.processTransaction(t22));
+
+        System.out.println("validate");
+        writer.println("validate");
+        assertDoesNotThrow(() -> testLedger.validate());
     }
 }

@@ -1,0 +1,46 @@
+
+create-ledger test description "test ledger 2025" seed "chapman"
+create-account mary
+create-account bob
+create-account bill
+create-account frank
+create-account jane
+get-account-balance mary
+process-transaction 1 amount 1000 fee 10 note fund account payer master receiver mary
+process-transaction 2 amount 1000 fee 10 note fund account payer master receiver bob
+process-transaction 3 amount 1000 fee 10 note fund account payer master receiver bill
+process-transaction 4 amount 1000 fee 10 note fund account payer master receiver frank
+process-transaction 5 amount 1000 fee 10 note fund account payer master receiver mary
+get-account-balance mary
+get-account-balances
+process-transaction 6 amount 1000 fee 10 note fund account payer master receiver bob
+process-transaction 7 amount 1000 fee 10 note fund account payer master receiver bill
+process-transaction 8 amount 1000 fee 10 note fund account payer master receiver frank
+process-transaction 9 amount 1000 fee 10 note fund account payer master receiver mary
+process-transaction 10 amount 1000 fee 10 note fund account payer master receiver bob
+get-account-mary
+get-account-bob
+get-account-bill
+get-account-frank
+get-account-jane
+get-block 1
+get-transaction 10process-transaction 11 amount 200 fee 10 note "september rent" payer frank receiver jane
+get-account-balance frank
+get-account-balance jane
+process-transaction 12 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 13 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 14 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 15 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 16 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 17 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 18 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 19 amount 20 fee 10 note uber payer bob receiver mary
+process-transaction 20 amount 20 fee 10 note uber payer bob receiver mary
+get-account-balance jane => 200
+get-account-balance frank => 1790
+get-account-balance mary => 3180
+get-account-balance bob  => 2730
+get-account-balances
+{frank=1790, bob=2730, mary=3180, bill=2000, master=2147473547, jane=200}
+process-transaction 22 amount 20 fee 5 note "food" payer bob receiver mary
+validate
