@@ -75,6 +75,7 @@ public class CompleteTest {
 
     @ParameterizedTest(name = "Creating account with name: {0}")
     @ValueSource(strings = {"mary", "bob", "bill", "frank", "jane"})
+    @Order(1)
     @Tag("Param")
     void parameterizedValueSourcesTest(String value) throws LedgerException {
         System.out.println("\n=== Running parameterizedValueSourcesTest: creating account '" + value + "' ===\n");
@@ -90,6 +91,7 @@ public class CompleteTest {
 
     @Tag("Param")
     @ParameterizedTest
+    @Order(2)
     @CsvSource({"mary", "bob", "bill", "frank", "jane"})
     void parameterizedComplexSourcesTest(String value) throws LedgerException {
         System.out.println("\n=== Running parameterizedComplexSourcesTest ===\n");
@@ -104,6 +106,7 @@ public class CompleteTest {
 
 
     @RepeatedTest(10)
+    @Order(3)
     @DisplayName("ProcessTransactionLoadTest")
     void repeatedTest(RepetitionInfo repetitionInfo) throws LedgerException {
         System.out.println("\n=== Running repeatedTest (ProcessTransactionLoadTest) repetition "
@@ -196,6 +199,7 @@ public class CompleteTest {
     
     @EnabledIfSystemProperty(named = "RUN_GETSET", matches = "true")
     @Test
+    @Order(4)
     void conditionalTest() { 
     System.out.println("\n=== Running conditionalTest ===\n");
         writer.write("\n=== Running conditionalTest ===\n");
@@ -204,7 +208,6 @@ public class CompleteTest {
         || "true".equalsIgnoreCase(System.getenv("RUN_GETSET"));
         assumeTrue(enabled, "Set -DRUN_GETSET=true (or env RUN_GETSET=true) to run this coverage-only test");
 
-        // --- ACCOUNT getters/setters ---
         Account acc = new Account("addr-1", 7);
         assertEquals("addr-1", acc.getAddress());
         acc.setAddress("addr-2");
@@ -217,7 +220,6 @@ public class CompleteTest {
         assertEquals(acc.getAddress(), accClone.getAddress());
         assertEquals(acc.getBalance(), accClone.getBalance());
 
-        // --- BLOCK getters/setters ---
         Block blk = new Block(1, "prev-hash-0");
         assertEquals(1, blk.getBlockNumber());
         assertEquals("prev-hash-0", blk.getPreviousHash());
@@ -229,19 +231,16 @@ public class CompleteTest {
         blk.setHash("hash-2");
         assertEquals("hash-2", blk.getHash());
 
-        // previousBlock getter/setter
         Block prev = new Block(0, "");
         blk.setPreviousBlock(prev);
         assertSame(prev, blk.getPreviousBlock());
 
-        // Touch account/txn accessors (maps/lists are returned by getters)
         Account a1 = new Account("A1", 10);
         blk.addAccount(a1.getAddress(), a1);
         assertSame(a1, blk.getAccount("A1"));
         assertNotNull(blk.getAccountBalanceMap());
         assertNotNull(blk.getTransactionList());
 
-        // --- TRANSACTION getters/setters ---
         Account payer = new Account("payer", 100);
         Account recv  = new Account("recv",  0);
         Transaction tx = new Transaction("t-1", 5, 10, "n0", payer, recv);
@@ -254,29 +253,22 @@ public class CompleteTest {
         tx.setReceiver(payer);       assertSame(payer, tx.getReceiver());
         assertNotNull(tx.toString()); // touch toString
 
-        // --- LEDGEREXCEPTION getters/setters ---
         LedgerException le = new LedgerException("act", "why");
         assertEquals("act", le.getAction());
         assertEquals("why", le.getReason());
         le.setAction("act2");   assertEquals("act2", le.getAction());
         le.setReason("why2");   assertEquals("why2", le.getReason());
-        // Note: getMessage() may be null in your current class; tests elsewhere avoid inspecting it.
 
-        // --- LEDGER getters/setters (singleton) ---
-        // Use the shared testLedger from setUp()
         assertNotNull(testLedger, "setUp should have initialized testLedger");
 
-        // Save current values to avoid polluting other tests
         String origName = testLedger.getName();
         String origDesc = testLedger.getDescription();
         String origSeed = testLedger.getSeed();
 
-        // Set & get
         testLedger.setName("name1");          assertEquals("name1", testLedger.getName());
         testLedger.setDescription("desc1");   assertEquals("desc1", testLedger.getDescription());
         testLedger.setSeed("seed1");          assertEquals("seed1", testLedger.getSeed());
 
-        // Restore and reset to leave singleton clean
         testLedger.setName(origName);
         testLedger.setDescription(origDesc);
         testLedger.setSeed(origSeed);
@@ -284,15 +276,14 @@ public class CompleteTest {
     }
     @Tag("Tagged")
     @Test
+    @Order(5)
     void taggedTest() { // Done needs print
     System.out.println("\n=== Running taggedTest ===\n");
 
         assertNotNull(testLedger);
 
-        // 1) Ledger singleton is the same instance
         assertNotNull(testLedger.getTransaction("init-transaction"));
 
-        // 3) Account clone preserves fields
         Account src = new Account("clone-src", 77);
         Account copy = (Account) src.clone();
         assertEquals(src.getAddress(), copy.getAddress());
@@ -309,23 +300,20 @@ public class CompleteTest {
 
     @Nested
     @DisplayName("Validation Nested Tests")
+    @Order(6)
     class NestedTestClass {
     private Ledger nestedLedger = null;
 
         @BeforeEach
         void nestedSetUp() throws LedgerException {
-            // Reset the singleton so each test starts clean
             nestedLedger = Ledger.getInstance("nested ledger", "nested-Ledger", "nested-ledger");
             nestedLedger.reset();
 
-            // Create zero-balance accounts
             Account a = nestedLedger.createAccount("test-account-A");
             Account b = nestedLedger.createAccount("test-account-B");
 
-            // Master pays all fees so totalBalances + fees == Integer.MAX_VALUE
             Account master = nestedLedger.getUncommittedBlock().getAccount("master");
 
-            // Commit exactly 10 valid transactions -> 1 committed block
             for (int i = 1; i <= 10; i++) {
                 String txId = "tx-" + i;
                 Transaction tx = new Transaction(txId, 0, 10, "transaction " + i, master, a);
@@ -344,15 +332,14 @@ public class CompleteTest {
         @Test
         @DisplayName("validate(): throws when no block has been committed")
         void validate_noCommittedBlocks() {
-            nestedLedger.reset();  // blockMap becomes empty
+            nestedLedger.reset(); 
             LedgerException ex = assertThrows(LedgerException.class, () -> nestedLedger.validate());
-            assertNotNull(ex); // don't inspect message; it may be null
+            assertNotNull(ex); 
         }
 
         @Test
         @DisplayName("validate(): throws if a committed block has txn count != 10")
         void validate_badTxnCount() throws LedgerException {
-            // From the committed state (1 block), remove one txn from block #1
             com.se300.ledger.Block b1 = nestedLedger.getBlock(1);
             assertNotNull(b1);
             assertFalse(b1.getTransactionList().isEmpty(), "Expected at least 1 committed txn to remove");
@@ -365,7 +352,6 @@ public class CompleteTest {
         @Test
         @DisplayName("validate(): throws on hash inconsistency between block.prevHash and prevBlock.hash")
         void validate_badHashLink() throws LedgerException {
-            // Create a 2nd committed block (20 total tx) with master paying fees
             Account master = nestedLedger.getUncommittedBlock().getAccount("master");
             Account a = nestedLedger.getUncommittedBlock().getAccount("test-account-A");
             for (int i = 11; i <= 20; i++) {
@@ -374,7 +360,6 @@ public class CompleteTest {
             }
             assertEquals(2, nestedLedger.getNumberOfBlocks(), "Should have 2 committed blocks");
 
-            // Corrupt block #1's hash so block #2's previousHash won't match
             com.se300.ledger.Block block1 = nestedLedger.getBlock(1);
             assertNotNull(block1);
             block1.setHash("BROKEN-HASH");
@@ -386,7 +371,6 @@ public class CompleteTest {
         @Test
         @DisplayName("validate(): throws when balances + fees != Integer.MAX_VALUE")
         void validate_badAdjustedBalance() throws LedgerException {
-            // Nudge a committed account's balance to break the sum invariant
             com.se300.ledger.Block block1 = nestedLedger.getBlock(1);
             assertNotNull(block1);
             Account tamper = block1.getAccount("test-account-B");
@@ -404,7 +388,7 @@ public class CompleteTest {
     }
 
     @Test
-    @Order(1)
+    @Order(7)
     @Tag("Assertion")
     void basicAssertionsTest() throws LedgerException {
     System.out.println("\n=== Running basicAssertionsTest ===\n");
@@ -413,7 +397,7 @@ public class CompleteTest {
 
         MerkleTrees mt = new MerkleTrees(List.of("seed")); 
         String out = mt.getSHA2HexValue(null);
-        assertEquals("", out); // catch path returns empty string
+        assertEquals("", out); 
 
         assertNotNull(testLedger);
         
@@ -429,18 +413,49 @@ public class CompleteTest {
         assertEquals(1100, testLedger.getUncommittedBlock().getAccount("test-account-B").getBalance());
 
         assertFalse(testLedger.getUncommittedBlock().getAccount("test-account-B").getBalance() == 890); // I think wrong
+
+        Transaction opTrans = new Transaction(null, null, null, null, null, null);
+        opTrans.setTransactionId("test");
+        assertEquals("test", opTrans.getTransactionId());
+
+        opTrans.setAmount(10);
+        assertEquals(10, opTrans.getAmount());
+
+        opTrans.setFee(10);
+        assertEquals(opTrans.getFee(), 10);
+
+        opTrans.setNote(out);
+        assertNotNull(opTrans.getNote());
+
+        opTrans.setPayer(testLedger.getUncommittedBlock().getAccount("master"));
+        opTrans.setReceiver(testLedger.getUncommittedBlock().getAccount("master"));
+        assertTrue(opTrans.getReceiver() == opTrans.getPayer());
+
+        testLedger.setSeed(null);
+        testLedger.setName(null);
+        testLedger.setDescription(null);
+        
+        assertNull(testLedger.getSeed());
+        assertNull(testLedger.getName());
+        assertNull(testLedger.getDescription());
+
+        LedgerException ledgerException = new LedgerException(null, null);
+        ledgerException.setAction("test");
+        ledgerException.setReason("test");
+
+        assertNotNull(ledgerException.getAction());
+        assertNotNull(ledgerException.getReason());
+
     }
 
     @Test
-    @Order(2)
+    @Order(8)
     @Tag("Assertion")
     void advancedAssertionsTest() {
     System.out.println("\n=== Running advancedAssertionsTest ===\n");
         // TODO: Complete this test to demonstrate advanced assertions (assertAll, assertThrows, assertTimeout, etc.)
         // TODO: At least 5 different advanced assertions
-        // assert that querying committed balances throws when no block is committed
 
-        // example: assertThrows for a LedgerException path (fee < 10)
         Account payer = testLedger.getUncommittedBlock().getAccount("test-account-A");
         System.out.println("Processing: createAccount for address: " + payer.getAddress());
 
@@ -451,15 +466,12 @@ public class CompleteTest {
         Account receiver = testLedger.getUncommittedBlock().getAccount("test-account-B");
         Transaction badFeeTx = new Transaction("badfee-" + UUID.randomUUID().toString(), 10, 5, "bad fee", payer, receiver);
         assertThrows(LedgerException.class, () -> testLedger.processTransaction(badFeeTx));
-
-        // prepare a duplicate transaction id to exercise the duplicate-id path
     
         assertDoesNotThrow(() -> {
             Transaction initialDup = new Transaction("duplicate", 1, 10, "dup-init", payer, receiver);
             testLedger.processTransaction(initialDup);
         });
 
-        // group assertions that each LedgerException path is thrown as expected
         assertAll("ledger exception paths",
             () -> assertThrows(LedgerException.class, () -> testLedger.getBlock(0)),
             () -> assertThrows(LedgerException.class, () -> testLedger.getAccountBalance("no-such")),
@@ -508,21 +520,22 @@ public class CompleteTest {
                     testLedger.processTransaction(tx);
                 }
                 testLedger.getAccountBalance("no acc");
+            }),
+            () -> assertDoesNotThrow(()-> {testLedger.getUncommittedBlock().setBlockNumber(null);
+            }),
+            () -> assertDoesNotThrow(()->{testLedger.getUncommittedBlock().setPreviousHash(null);
             })
         );
 
         assertTimeout(Duration.ofSeconds(20), () -> {
-            // after loop block should be committed
             assertNotNull(testLedger.getBlock(1));
             assertEquals(1, testLedger.getNumberOfBlocks());
             assertNotNull(testLedger.getAccountBalance("test-account-A"));
         });
 
-        // assertDoesNotThrow for processing a valid transaction
         Transaction validTx = new Transaction("valid", 1, 10, "ok", payer, receiver);
         assertDoesNotThrow(() -> testLedger.processTransaction(validTx));
 
-        // assertIterableEquals: verify transaction IDs list is consistent
         java.util.List<String> expectedIds = new java.util.ArrayList<>();
         for (Transaction t : testLedger.getUncommittedBlock().getTransactionList()) {
             expectedIds.add(t.getTransactionId());
@@ -533,6 +546,7 @@ public class CompleteTest {
 
     @Test // Doesn't affect coverage
     @Tag("Mock")
+    @Order(9)
     void mockBehaviorTest() throws LedgerException {
     System.out.println("\n=== Running mockBehaviorTest ===\n");
         // TODO: Complete this test to demonstrate configuring mock behavior (when/then, doReturn/when, etc.)
@@ -554,7 +568,7 @@ public class CompleteTest {
     }
 
     @Test
-    @Order(3)
+    @Order(10)
     void assumptionsTest() throws LedgerException {
     System.out.println("\n=== Running assumptionsTest ===\n");
         Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
@@ -587,6 +601,7 @@ public class CompleteTest {
 
     @Test
     @Tag("Mock")
+    @Order(11)
     void mockVerificationTest() throws LedgerException{
     System.out.println("\n=== Running mockVerificationTest ===\n");
         // TODO: Complete this test to demonstrate verifying mock interactions (verify, times, never, etc.)
@@ -606,6 +621,7 @@ public class CompleteTest {
 
     @Test
     @Tag("Mock")
+    @Order(12)
     void mockArgumentMatchersTest() throws LedgerException{
     System.out.println("\n=== Running mockArgumentMatchersTest ===\n");
         // TODO: Complete this test to demonstrate using argument matchers with mocks (any(), eq(), etc.)
@@ -624,12 +640,14 @@ public class CompleteTest {
     }
 
     @Test
+    @Order(13)
     void methodOrderTest() { //Done needs print
     System.out.println("\n=== Running methodOrderTest ===\n");
         // TODO: Complete this test to demonstrate test method ordering using @TestMethodOrder and @Order annotations
     }
 
     @Test
+    @Order(14)
     void endToEnd() throws LedgerException {
         // Test 1
         Ledger testLedger = Ledger.getInstance("test", "test ledger 2025", "chapman");
