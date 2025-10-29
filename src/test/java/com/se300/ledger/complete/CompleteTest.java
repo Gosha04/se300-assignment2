@@ -109,36 +109,38 @@ public class CompleteTest {
     @Order(3)
     @DisplayName("ProcessTransactionLoadTest")
     void repeatedTest(RepetitionInfo repetitionInfo) throws LedgerException {
-        System.out.println("\n=== Running repeatedTest (ProcessTransactionLoadTest) repetition "
-            + repetitionInfo.getCurrentRepetition() + " ===\n");
-    
-        long startTime = System.currentTimeMillis();
+        assertTimeout(Duration.ofSeconds(1), () -> {
+            System.out.println("\n=== Running repeatedTest (ProcessTransactionLoadTest) repetition "
+                + repetitionInfo.getCurrentRepetition() + " ===\n");
+        
+            long startTime = System.currentTimeMillis();
 
-        Integer rep = repetitionInfo.getCurrentRepetition();
-        int totalRep = repetitionInfo.getTotalRepetitions();
-        System.out.println("Running Repetition " + rep + " of " + totalRep);
+            Integer rep = repetitionInfo.getCurrentRepetition();
+            int totalRep = repetitionInfo.getTotalRepetitions();
+            System.out.println("Running Repetition " + rep + " of " + totalRep);
 
-        assertEquals(0, testLedger.getNumberOfBlocks(), "No committed blocks at start");
+            assertEquals(0, testLedger.getNumberOfBlocks(), "No committed blocks at start");
 
-        Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
-        Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
+            Account a = testLedger.getUncommittedBlock().getAccount("test-account-A");
+            Account b = testLedger.getUncommittedBlock().getAccount("test-account-B");
 
-        for (int i = 1; i <= 9; i++) {
-            String txId = rep + "-" + i; // unique ID per repetition
-        Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
+            for (int i = 1; i <= 9; i++) {
+                String txId = rep + "-" + i; // unique ID per repetition
+            Transaction tx = new Transaction(txId,0,10,"transaction " + i,a,b);
 
-        System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() + " " + tx.getFee()
-         + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " + tx.getReceiver().getAddress());
+            System.out.println("Processing Transaction: " + tx.getTransactionId() + " " + tx.getAmount() + " " + tx.getFee()
+            + " " + tx.getNote() + " " + tx.getPayer().getAddress() + " " + tx.getReceiver().getAddress());
 
-        testLedger.processTransaction(tx);
-        }
+            testLedger.processTransaction(tx);
+            }
 
-        // still uncommitted until 10th tx happens elsewhere
-        assertEquals(1, testLedger.getNumberOfBlocks(), "10 commited blocks");
+            // still uncommitted until 10th tx happens elsewhere
+            assertEquals(1, testLedger.getNumberOfBlocks(), "10 commited blocks");
 
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("Repetition " + rep + " completed in " + duration + " ms");    
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+            System.out.println("Repetition " + rep + " completed in " + duration + " ms");    
+        });
     }
 
     @BeforeEach
@@ -310,8 +312,6 @@ public class CompleteTest {
             nestedLedger.reset();
 
             Account a = nestedLedger.createAccount("test-account-A");
-            Account b = nestedLedger.createAccount("test-account-B");
-
             Account master = nestedLedger.getUncommittedBlock().getAccount("master");
 
             for (int i = 1; i <= 10; i++) {
@@ -730,7 +730,7 @@ public class CompleteTest {
         writer.write("\nget-block 1\nget-transaction 10");
 
         // Test 10
-        Block b1 = assertDoesNotThrow(() -> testLedger.getBlock(1)); // for existence
+        assertDoesNotThrow(() -> testLedger.getBlock(1)); // for existence
         Account frankAcc = testLedger.getUncommittedBlock().getAccount("frank");
         Account janeAcc  = testLedger.getUncommittedBlock().getAccount("jane");
 
